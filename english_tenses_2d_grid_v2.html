@@ -1,0 +1,395 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);}
+.page{display:flex;gap:14px;padding:1rem 0;align-items:flex-start;font-family:var(--font-sans);}
+.left{flex:1;min-width:0;}
+.sidebar{width:192px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px;align-items:center;}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary);}
+.sw{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+
+.grid-wrap{display:grid;grid-template-columns:58px repeat(6,minmax(0,1fr));gap:3px;}
+.col-header{display:flex;align-items:center;justify-content:center;padding:5px 3px;border-radius:6px;font-size:9.5px;font-weight:500;text-align:center;line-height:1.3;}
+.ch-past    {background:#FAECE7;color:#712B13;}
+.ch-pastperf{background:#FBEAF0;color:#72243E;}
+.ch-pres    {background:#EEEDFE;color:#3C3489;}
+.ch-presperf{background:#E1F5EE;color:#085041;}
+.ch-fut     {background:#FAEEDA;color:#633806;}
+.ch-futperf {background:#D3D1C7;color:#2C2C2A;}
+@media(prefers-color-scheme:dark){
+  .ch-past    {background:#4A1B0C;color:#F5C4B3;}
+  .ch-pastperf{background:#4B1528;color:#F4C0D1;}
+  .ch-pres    {background:#26215C;color:#CECBF6;}
+  .ch-presperf{background:#04342C;color:#9FE1CB;}
+  .ch-fut     {background:#412402;color:#FAC775;}
+  .ch-futperf {background:#2C2C2A;color:#D3D1C7;}
+}
+.row-header{display:flex;align-items:center;justify-content:flex-end;padding:3px 5px 3px 0;font-size:10px;font-weight:500;text-align:right;line-height:1.3;color:var(--color-text-secondary);}
+.tcell{border-radius:7px;padding:7px 7px 5px;cursor:pointer;border:1.5px solid transparent;transition:border-color .12s;display:flex;flex-direction:column;gap:2px;min-height:68px;}
+.tcell:hover{border-color:var(--color-border-primary);}
+.tcell.active{border-color:#534AB7;border-width:2px;}
+.simple{background:#EAF3DE;}
+.cont  {background:#E6F1FB;}
+@media(prefers-color-scheme:dark){
+  .simple{background:#173404;}
+  .cont  {background:#042C53;}
+}
+.tc-name{font-size:10px;font-weight:500;line-height:1.3;color:var(--color-text-primary);}
+.tc-eg{font-size:9.5px;font-style:italic;color:var(--color-text-secondary);line-height:1.3;margin-top:1px;}
+.tc-tap{font-size:9px;color:var(--color-text-tertiary);margin-top:auto;padding-top:3px;}
+.empty{min-height:68px;}
+
+.detail-panel{margin-top:8px;background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:10px;overflow:hidden;}
+.dp-header{padding:9px 12px 7px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;gap:8px;}
+.dp-badge{width:11px;height:11px;border-radius:3px;flex-shrink:0;}
+.dp-title{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.dp-body{padding:10px 12px;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;}
+.dp-section{display:flex;flex-direction:column;gap:4px;}
+.dp-section.full{grid-column:1/-1;}
+.dp-label{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:1px;}
+.lbl{display:inline-block;font-size:9px;font-weight:500;padding:1px 5px;border-radius:3px;margin-bottom:1px;}
+.ls{background:#C0DD97;color:#27500A;}
+.ln{background:#F7C1C1;color:#791F1F;}
+.lq{background:#B5D4F4;color:#0C447C;}
+@media(prefers-color-scheme:dark){
+  .ls{background:#27500A;color:#C0DD97;}
+  .ln{background:#791F1F;color:#F7C1C1;}
+  .lq{background:#0C447C;color:#B5D4F4;}
+}
+.fm{font-family:var(--font-mono);font-size:10.5px;color:var(--color-text-primary);line-height:1.5;display:block;}
+.eg-line{font-size:11px;font-style:italic;color:var(--color-text-secondary);line-height:1.5;}
+.note{font-size:10px;color:var(--color-text-secondary);border-left:2px solid var(--color-border-secondary);padding-left:5px;line-height:1.4;border-radius:0;margin-top:3px;}
+.nuance{font-size:10px;color:var(--color-text-secondary);border-left:2px solid #EF9F27;padding-left:5px;line-height:1.4;border-radius:0;margin-top:4px;}
+.exp-text{font-size:11.5px;line-height:1.6;color:var(--color-text-primary);}
+.dp-placeholder{padding:14px 12px;font-size:12px;color:var(--color-text-secondary);font-style:italic;}
+
+.scard{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:10px 11px;}
+.scard h3{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:var(--color-text-secondary);margin-bottom:6px;}
+.abbr-row{display:flex;gap:5px;align-items:baseline;margin-bottom:3px;font-size:11px;}
+.abbr-term{font-family:var(--font-mono);font-weight:500;color:var(--color-text-primary);min-width:26px;}
+.abbr-def{color:var(--color-text-secondary);line-height:1.4;}
+.vtable{width:100%;border-collapse:collapse;font-size:10px;}
+.vtable th{font-size:9px;font-weight:500;text-transform:uppercase;letter-spacing:.04em;color:var(--color-text-secondary);padding:2px 3px;border-bottom:0.5px solid var(--color-border-secondary);text-align:left;}
+.vtable td{padding:2px 3px;border-bottom:0.5px solid var(--color-border-tertiary);color:var(--color-text-primary);vertical-align:top;}
+.vtable tr:last-child td{border-bottom:none;}
+.vtable td:first-child{font-weight:500;}
+.vtable td:not(:first-child){font-family:var(--font-mono);font-size:9.5px;color:var(--color-text-secondary);}
+</style>
+
+<h2 class="sr-only">Complete interactive 2D English tense grid. Columns: Past, Past Perfect, Present, Present Perfect, Future, Future Perfect. Rows: Simple, Continuous, going to. Tap any cell to see formula, examples and usage notes.</h2>
+
+<div class="page">
+<div class="left">
+
+<div class="legend">
+  <span style="font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-right:2px;">Aspect:</span>
+  <span class="leg"><span class="sw" style="background:#C0DD97;"></span>Simple</span>
+  <span class="leg"><span class="sw" style="background:#B5D4F4;"></span>Continuous</span>
+  <span style="font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-left:6px;margin-right:2px;">Time:</span>
+  <span class="leg"><span class="sw" style="background:#FAECE7;border:0.5px solid #F0997B;"></span>Past</span>
+  <span class="leg"><span class="sw" style="background:#FBEAF0;border:0.5px solid #ED93B1;"></span>Past perf.</span>
+  <span class="leg"><span class="sw" style="background:#EEEDFE;border:0.5px solid #AFA9EC;"></span>Present</span>
+  <span class="leg"><span class="sw" style="background:#E1F5EE;border:0.5px solid #5DCAA5;"></span>Pres. perf.</span>
+  <span class="leg"><span class="sw" style="background:#FAEEDA;border:0.5px solid #EF9F27;"></span>Future</span>
+  <span class="leg"><span class="sw" style="background:#D3D1C7;border:0.5px solid #888780;"></span>Fut. perf.</span>
+</div>
+
+<div class="grid-wrap" id="grid">
+
+  <div></div>
+  <div class="col-header ch-past">Past</div>
+  <div class="col-header ch-pastperf">Past Perfect</div>
+  <div class="col-header ch-pres">Present</div>
+  <div class="col-header ch-presperf">Present Perfect</div>
+  <div class="col-header ch-fut">Future</div>
+  <div class="col-header ch-futperf">Future Perfect</div>
+
+  <div class="row-header">Simple</div>
+  <div class="tcell simple" data-id="past-simple"      tabindex="0" role="button"><div class="tc-name">Past Simple</div><div class="tc-eg">She called him.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell simple" data-id="past-perf-simple" tabindex="0" role="button"><div class="tc-name">Past Perfect Simple</div><div class="tc-eg">He had left before I arrived.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell simple" data-id="pres-simple"      tabindex="0" role="button"><div class="tc-name">Present Simple</div><div class="tc-eg">She works every day.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell simple" data-id="pres-perf-simple" tabindex="0" role="button"><div class="tc-name">Present Perfect Simple</div><div class="tc-eg">I have lost my keys.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell simple" data-id="fut-simple"       tabindex="0" role="button"><div class="tc-name">Future Simple (will)</div><div class="tc-eg">I will call you later.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell simple" data-id="fut-perf-simple"  tabindex="0" role="button"><div class="tc-name">Future Perfect Simple</div><div class="tc-eg">By 6pm I will have finished.</div><div class="tc-tap">tap for details</div></div>
+
+  <div class="row-header">Continuous</div>
+  <div class="tcell cont" data-id="past-cont"      tabindex="0" role="button"><div class="tc-name">Past Continuous</div><div class="tc-eg">She was sleeping at 9pm.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell cont" data-id="past-perf-cont" tabindex="0" role="button"><div class="tc-name">Past Perfect Continuous</div><div class="tc-eg">She had been crying for hours.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell cont" data-id="pres-cont"      tabindex="0" role="button"><div class="tc-name">Present Continuous</div><div class="tc-eg">She is working now.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell cont" data-id="pres-perf-cont" tabindex="0" role="button"><div class="tc-name">Present Perfect Continuous</div><div class="tc-eg">She has been working all day.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell cont" data-id="fut-cont"       tabindex="0" role="button"><div class="tc-name">Future Continuous</div><div class="tc-eg">I will be sleeping at midnight.</div><div class="tc-tap">tap for details</div></div>
+  <div class="tcell cont" data-id="fut-perf-cont"  tabindex="0" role="button"><div class="tc-name">Future Perfect Continuous</div><div class="tc-eg">By July I will have been studying for a year.</div><div class="tc-tap">tap for details</div></div>
+
+  <div class="row-header" style="line-height:1.3;">going to<br><span style="font-size:9px;font-weight:400;">(future)</span></div>
+  <div class="empty"></div>
+  <div class="empty"></div>
+  <div class="empty"></div>
+  <div class="empty"></div>
+  <div class="tcell simple" data-id="going-to" tabindex="0" role="button"><div class="tc-name">Future (going to)</div><div class="tc-eg">I'm going to start a course.</div><div class="tc-tap">tap for details</div></div>
+  <div class="empty"></div>
+
+</div>
+
+<div class="detail-panel" id="detail-panel">
+  <div class="dp-placeholder" id="dp-placeholder">Tap any tense cell above to see its full formula, examples and usage notes.</div>
+  <div id="dp-content" style="display:none;"></div>
+</div>
+</div>
+
+<div class="sidebar">
+<div class="scard">
+  <h3>Abbreviations</h3>
+  <div class="abbr-row"><span class="abbr-term">subj</span><span class="abbr-def">subject (who acts)</span></div>
+  <div class="abbr-row"><span class="abbr-term">obj</span><span class="abbr-def">object (receives action)</span></div>
+  <div class="abbr-row"><span class="abbr-term">adj</span><span class="abbr-def">adjective (e.g. happy)</span></div>
+  <div class="abbr-row"><span class="abbr-term">p.p.</span><span class="abbr-def">past participle (3rd form)</span></div>
+  <div class="abbr-row"><span class="abbr-term">base</span><span class="abbr-def">1st form / infinitive</span></div>
+  <div class="abbr-row"><span class="abbr-term">+</span><span class="abbr-def">positive / affirmative</span></div>
+  <div class="abbr-row"><span class="abbr-term">−</span><span class="abbr-def">negative</span></div>
+  <div class="abbr-row"><span class="abbr-term">?</span><span class="abbr-def">question form</span></div>
+  <div class="abbr-row"><span class="abbr-term">⚠</span><span class="abbr-def">common mistake</span></div>
+</div>
+<div class="scard">
+  <h3>Verb forms · 1st / 2nd / 3rd</h3>
+  <p style="font-size:9.5px;color:var(--color-text-secondary);margin-bottom:6px;line-height:1.4;">1st = base &nbsp;·&nbsp; 2nd = past simple &nbsp;·&nbsp; 3rd = p.p.</p>
+  <table class="vtable">
+    <thead><tr><th>Verb</th><th>2nd</th><th>3rd (p.p.)</th></tr></thead>
+    <tbody>
+      <tr><td>be</td><td>was/were</td><td>been</td></tr>
+      <tr><td>go</td><td>went</td><td>gone</td></tr>
+      <tr><td>have</td><td>had</td><td>had</td></tr>
+      <tr><td>do</td><td>did</td><td>done</td></tr>
+      <tr><td>see</td><td>saw</td><td>seen</td></tr>
+      <tr><td>come</td><td>came</td><td>come</td></tr>
+      <tr><td>eat</td><td>ate</td><td>eaten</td></tr>
+      <tr><td>leave</td><td>left</td><td>left</td></tr>
+      <tr><td>meet</td><td>met</td><td>met</td></tr>
+      <tr><td>call</td><td>called</td><td>called</td></tr>
+      <tr><td>work</td><td>worked</td><td>worked</td></tr>
+      <tr><td>sleep</td><td>slept</td><td>slept</td></tr>
+      <tr><td>wait</td><td>waited</td><td>waited</td></tr>
+      <tr><td>arrive</td><td>arrived</td><td>arrived</td></tr>
+      <tr><td>finish</td><td>finished</td><td>finished</td></tr>
+      <tr><td>lose</td><td>lost</td><td>lost</td></tr>
+      <tr><td>cry</td><td>cried</td><td>cried</td></tr>
+      <tr><td>start</td><td>started</td><td>started</td></tr>
+      <tr><td>live</td><td>lived</td><td>lived</td></tr>
+      <tr><td>apply</td><td>applied</td><td>applied</td></tr>
+    </tbody>
+  </table>
+</div>
+</div>
+</div>
+
+<script>
+const DATA = {
+  "pres-simple":{
+    name:"Present Simple",aspect:"simple",
+    col:"present",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["I/You/We/They + verb (base)","He/She/It + verb+s/es","to be: I am · you/we/they are · he/she/it is"]},
+      {lbl:"−",cls:"ln",lines:["I/You/We/They + don't + verb","He/She/It + doesn't + verb","to be: am not / aren't / isn't + adj/noun"]},
+      {lbl:"?",cls:"lq",lines:["Do + I/you/we/they + verb?","Does + he/she/it + verb?","to be: Am I / Are you / Is he + adj/noun?"]}
+    ],
+    note:"After doesn't/does → always base verb (no -s)",
+    examples:["She is a teacher. (to be)","He works every day.","She doesn't eat meat.","Do they live here?"],
+    exp:"Habits, routines, general truths, permanent states and facts. Signals: always, usually, every day, never, often.",
+    nuance:null
+  },
+  "pres-cont":{
+    name:"Present Continuous",aspect:"cont",
+    col:"present",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["am/is/are + verb+ing"]},
+      {lbl:"−",cls:"ln",lines:["am/is/are + not + verb+ing"]},
+      {lbl:"?",cls:"lq",lines:["Am/Is/Are + subj + verb+ing?"]}
+    ],
+    note:null,
+    examples:["She is working right now.","They aren't sleeping.","Is he coming?"],
+    exp:"Action happening at this exact moment, or a temporary situation. Also used for fixed future plans. Signals: now, at the moment, currently, today, this week.",
+    nuance:"⚠ Never use -ing with: know, like, love, want, need, believe, understand."
+  },
+  "pres-perf-simple":{
+    name:"Present Perfect Simple",aspect:"simple",
+    col:"presperf",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["have/has + verb (3rd form / p.p.)"]},
+      {lbl:"−",cls:"ln",lines:["haven't/hasn't + verb (3rd form)"]},
+      {lbl:"?",cls:"lq",lines:["Have/Has + subj + verb (3rd form)?"]}
+    ],
+    note:null,
+    examples:["I have lost my keys.","She hasn't called yet.","Have you eaten?"],
+    exp:"A past action whose result matters now. Or a life experience with no specific time given. Signals: already, yet, just, ever, never, recently, so far.",
+    nuance:"⚠ vs Past Simple: 'I have lost my keys' → still don't have them now. 'I lost my keys in 2019' → specific past moment, no link to now needed."
+  },
+  "pres-perf-cont":{
+    name:"Present Perfect Continuous",aspect:"cont",
+    col:"presperf",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["have/has + been + verb+ing"]},
+      {lbl:"−",cls:"ln",lines:["haven't/hasn't + been + verb+ing"]},
+      {lbl:"?",cls:"lq",lines:["Have/Has + subj + been + verb+ing?"]}
+    ],
+    note:null,
+    examples:["She has been working all day.","I haven't been sleeping well.","Have you been waiting long?"],
+    exp:"Action that started in the past and is still ongoing, or just stopped — with a visible result now. Emphasises duration. Signals: for, since, all day/morning, lately, how long.",
+    nuance:"⚠ vs Present Perfect Simple: 'I have read the book' (finished). 'I have been reading the book' (still reading, or just stopped)."
+  },
+  "past-simple":{
+    name:"Past Simple",aspect:"simple",
+    col:"past",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["subj + verb (2nd form / past)","to be: I/he/she/it + was · you/we/they + were + adj/noun"]},
+      {lbl:"−",cls:"ln",lines:["subj + didn't + verb (base)","to be: wasn't / weren't + adj/noun"]},
+      {lbl:"?",cls:"lq",lines:["Did + subj + verb (base)?","to be: Was + I/he/she/it? · Were + you/we/they?"]}
+    ],
+    note:"did/didn't = always same for all subjects",
+    examples:["She called him.","He didn't come.","Did you see it?","It was cold. · Were they ready?"],
+    exp:"A completed action at a specific time in the past. The time is stated or understood. Signals: yesterday, last year, in 2010, ago.",
+    nuance:"⚠ vs Present Perfect: 'I saw him yesterday' (specific time → past simple) vs 'I have seen him' (no specific time → present perfect)."
+  },
+  "past-cont":{
+    name:"Past Continuous",aspect:"cont",
+    col:"past",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["was/were + verb+ing"]},
+      {lbl:"−",cls:"ln",lines:["wasn't/weren't + verb+ing"]},
+      {lbl:"?",cls:"lq",lines:["Was/Were + subj + verb+ing?"]}
+    ],
+    note:null,
+    examples:["She was sleeping at 9pm.","We weren't waiting long.","Were they arguing?"],
+    exp:"An action in progress at a specific past moment, or one that was interrupted by another action.",
+    nuance:"'I was cooking when he arrived.' → continuous = background action; past simple = the interruption."
+  },
+  "past-perf-simple":{
+    name:"Past Perfect Simple",aspect:"simple",
+    col:"pastperf",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["had + verb (3rd form / p.p.)"]},
+      {lbl:"−",cls:"ln",lines:["hadn't + verb (3rd form)"]},
+      {lbl:"?",cls:"lq",lines:["Had + subj + verb (3rd form)?"]}
+    ],
+    note:"had = same for ALL subjects",
+    examples:["He had left before I arrived.","She hadn't eaten.","Had they met before?"],
+    exp:"The 'past before the past' — an action completed before another past action. Shows which event happened first.",
+    nuance:"'When I arrived, he had already left.' → he left first, then I arrived."
+  },
+  "past-perf-cont":{
+    name:"Past Perfect Continuous",aspect:"cont",
+    col:"pastperf",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["had + been + verb+ing"]},
+      {lbl:"−",cls:"ln",lines:["hadn't + been + verb+ing"]},
+      {lbl:"?",cls:"lq",lines:["Had + subj + been + verb+ing?"]}
+    ],
+    note:null,
+    examples:["She had been crying for hours.","He hadn't been sleeping well.","Had you been waiting long?"],
+    exp:"Like past perfect simple, but emphasises the duration of the earlier action. Explains why something was true at a past moment.",
+    nuance:"'She was tired because she had been working all night.' — duration of working explains the tiredness."
+  },
+  "fut-simple":{
+    name:"Future Simple (will)",aspect:"simple",
+    col:"fut",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["will + verb (base) — all subjects"]},
+      {lbl:"−",cls:"ln",lines:["won't + verb (base)"]},
+      {lbl:"?",cls:"lq",lines:["Will + subj + verb (base)?"]}
+    ],
+    note:null,
+    examples:["I will call you later.","She won't come.","Will you help me?"],
+    exp:"Spontaneous decisions, predictions, promises, offers. Used when you decide at the moment of speaking. Signals: probably, I think, I'm sure, I promise.",
+    nuance:"⚠ vs going to: 'It will rain.' (gut prediction, no evidence) vs 'Look at those clouds — it's going to rain.' (evidence visible now)."
+  },
+  "going-to":{
+    name:"Future (going to)",aspect:"simple",
+    col:"fut",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["am/is/are + going to + verb (base)"]},
+      {lbl:"−",cls:"ln",lines:["am/is/are + not going to + verb (base)"]},
+      {lbl:"?",cls:"lq",lines:["Am/Is/Are + subj + going to + verb (base)?"]}
+    ],
+    note:null,
+    examples:["I'm going to start a course.","She isn't going to quit.","Are you going to apply?"],
+    exp:"Intentions already decided before speaking, or predictions based on present visible evidence.",
+    nuance:null
+  },
+  "fut-cont":{
+    name:"Future Continuous",aspect:"cont",
+    col:"fut",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["will + be + verb+ing"]},
+      {lbl:"−",cls:"ln",lines:["won't + be + verb+ing"]},
+      {lbl:"?",cls:"lq",lines:["Will + subj + be + verb+ing?"]}
+    ],
+    note:null,
+    examples:["I will be sleeping at midnight.","She won't be working then.","Will you be using the car?"],
+    exp:"An action that will be in progress at a specific future moment. Also a polite, low-pressure way to ask about someone's plans.",
+    nuance:null
+  },
+  "fut-perf-simple":{
+    name:"Future Perfect Simple",aspect:"simple",
+    col:"futperf",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["will + have + verb (3rd form / p.p.)"]},
+      {lbl:"−",cls:"ln",lines:["won't + have + verb (3rd form)"]},
+      {lbl:"?",cls:"lq",lines:["Will + subj + have + verb (3rd form)?"]}
+    ],
+    note:null,
+    examples:["By 6pm I will have finished.","She won't have arrived yet.","Will you have eaten by then?"],
+    exp:"An action completed before a specific future point. Signals: by + time (by Monday, by then, by the time…).",
+    nuance:null
+  },
+  "fut-perf-cont":{
+    name:"Future Perfect Continuous",aspect:"cont",
+    col:"futperf",
+    formulas:[
+      {lbl:"+",cls:"ls",lines:["will + have + been + verb+ing"]},
+      {lbl:"−",cls:"ln",lines:["won't + have + been + verb+ing"]},
+      {lbl:"?",cls:"lq",lines:["Will + subj + have + been + verb+ing?"]}
+    ],
+    note:null,
+    examples:["By July I will have been studying for a year.","Won't she have been working here for 10 years?","Will he have been waiting long?"],
+    exp:"Like future perfect simple, but emphasises the duration leading up to a future point. Signals: by + time, for + period.",
+    nuance:null
+  }
+};
+
+const COL_BG={past:"#FAECE7",pastperf:"#FBEAF0",present:"#EEEDFE",presperf:"#E1F5EE",fut:"#FAEEDA",futperf:"#D3D1C7"};
+const ASPECT_LABEL={simple:"Simple",cont:"Continuous"};
+const ASPECT_BG={simple:"#C0DD97",cont:"#B5D4F4"};
+const ASPECT_TXT={simple:"#27500A",cont:"#0C447C"};
+
+function renderDetail(id){
+  const d=DATA[id];if(!d)return;
+  const ab=ASPECT_BG[d.aspect],at=ASPECT_TXT[d.aspect],cb=COL_BG[d.col]||"#eee";
+  let fHTML=d.formulas.map(f=>`<div style="margin-bottom:4px;"><span class="lbl ${f.cls}">${f.lbl}</span>${f.lines.map(l=>`<span class="fm">${l}</span>`).join('')}</div>`).join('');
+  if(d.note)fHTML+=`<div class="note">${d.note}</div>`;
+  const eHTML=d.examples.map(e=>`<div class="eg-line">${e}</div>`).join('');
+  let uHTML=`<div class="exp-text">${d.exp}</div>`;
+  if(d.nuance)uHTML+=`<div class="nuance">${d.nuance}</div>`;
+  document.getElementById('dp-content').innerHTML=`
+    <div class="dp-header">
+      <div class="dp-badge" style="background:${cb};border:1px solid rgba(0,0,0,.1);"></div>
+      <div class="dp-title">${d.name}</div>
+      <div style="margin-left:auto;font-size:10px;padding:2px 7px;border-radius:4px;background:${ab};color:${at};font-weight:500;">${ASPECT_LABEL[d.aspect]}</div>
+    </div>
+    <div class="dp-body">
+      <div class="dp-section"><div class="dp-label">Formula</div>${fHTML}</div>
+      <div class="dp-section"><div class="dp-label">Examples</div>${eHTML}</div>
+      <div class="dp-section full"><div class="dp-label">When &amp; why to use it</div>${uHTML}</div>
+    </div>`;
+  document.getElementById('dp-placeholder').style.display='none';
+  document.getElementById('dp-content').style.display='block';
+}
+
+document.getElementById('grid').addEventListener('click',e=>{
+  const cell=e.target.closest('[data-id]');if(!cell)return;
+  document.querySelectorAll('.tcell').forEach(c=>c.classList.remove('active'));
+  cell.classList.add('active');
+  renderDetail(cell.dataset.id);
+});
+document.getElementById('grid').addEventListener('keydown',e=>{
+  if(e.key==='Enter'||e.key===' '){const cell=e.target.closest('[data-id]');if(cell){e.preventDefault();cell.click();}}
+});
+</script>
