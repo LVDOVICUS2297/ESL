@@ -1,78 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Debate Topics</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  .board { padding: 1.5rem 0; }
-  .board-title { font-size: 13px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.25rem; }
-  .card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 0.75rem; display: flex; align-items: flex-start; gap: 1rem; cursor: pointer; transition: border-color 0.15s; }
-  .card:hover { border-color: var(--color-border-secondary); }
-  .card.selected { border: 2px solid var(--color-border-info); background: var(--color-background-info); }
-  .num { font-size: 13px; font-weight: 500; color: var(--color-text-tertiary); min-width: 20px; padding-top: 2px; }
-  .card.selected .num { color: var(--color-text-info); }
-  .statement { font-size: 16px; color: var(--color-text-primary); line-height: 1.5; }
-  .tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: var(--border-radius-md); margin-bottom: 6px; background: var(--color-background-secondary); color: var(--color-text-secondary); }
-  .card.selected .tag { background: var(--color-background-info); color: var(--color-text-info); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F2EC;
+    --ink: #1A1814;
+    --ink2: #5C5850;
+    --ink3: #9C9890;
+    --accent: #C8391A;
+    --accent2: #1A4AC8;
+    --card-bg: #FDFCF9;
+    --border: #DDD9D0;
+    --tag-bg: #EDE9E0;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 3rem 1.5rem;
+  }
+
+  header {
+    max-width: 720px;
+    margin: 0 auto 3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+  }
+
+  .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--ink2);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .topics {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .topic {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .topic.open {
+    border-color: var(--ink);
+  }
+
+  .topic-header {
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: start;
+    gap: 1rem;
+    user-select: none;
+  }
+
+  .topic-header:hover .statement {
+    color: var(--accent);
+  }
+
+  .topic-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink3);
+    padding-top: 4px;
+    min-width: 20px;
+  }
+
+  .topic-title {
+    flex: 1;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink3);
+    background: var(--tag-bg);
+    padding: 3px 8px;
+    border-radius: 2px;
+    margin-bottom: 6px;
+  }
+
+  .statement {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.05rem;
+    line-height: 1.4;
+    color: var(--ink);
+    transition: color 0.2s;
+  }
+
+  .chevron {
+    width: 18px;
+    height: 18px;
+    color: var(--ink3);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-top: 4px;
+  }
+
+  .topic.open .chevron {
+    transform: rotate(180deg);
+    color: var(--accent);
+  }
+
+  .topic-body {
+    display: none;
+    padding: 0 1.5rem 1.5rem 3.5rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+  }
+
+  .topic.open .topic-body {
+    display: block;
+  }
+
+  .section {
+    margin-top: 1.25rem;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+
+  .section-label.blue { color: var(--accent2); }
+  .section-label.gray { color: var(--ink3); }
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  ul li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink2);
+    padding-left: 1rem;
+    position: relative;
+    font-weight: 300;
+  }
+
+  ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--border);
+    font-size: 12px;
+  }
+
+  ul li strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1rem 0;
+  }
+
+  .feed-box {
+    background: #F0EDE4;
+    border-left: 2px solid var(--accent);
+    padding: 0.75rem 1rem;
+    border-radius: 0 2px 2px 0;
+    margin-top: 0.5rem;
+  }
+
+  .feed-box p {
+    font-size: 13px;
+    color: var(--ink2);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .feed-box p + p { margin-top: 0.4rem; }
+
+  footer {
+    max-width: 720px;
+    margin: 3rem auto 0;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--ink3);
+    letter-spacing: 0.05em;
+  }
 </style>
+</head>
+<body>
 
-<div class="board">
-  <p class="board-title">Pick a topic — then we argue</p>
+<header>
+  <p class="label">Speaking lesson — debate prep</p>
+  <h1>Pick a topic.<br><em>Let's argue.</em></h1>
+  <p class="subtitle">Click any statement to open the discussion guide.</p>
+</header>
 
-  <div class="card" onclick="toggle(this)">
-    <span class="num">1</span>
-    <div>
-      <span class="tag">Technology</span>
-      <p class="statement">"Smartphones have made loneliness worse, not better."</p>
+<div class="topics">
+
+  <!-- 1 -->
+  <div class="topic" onclick="toggle(this)">
+    <div class="topic-header">
+      <span class="topic-num">01</span>
+      <div class="topic-title">
+        <span class="tag">Technology</span>
+        <p class="statement">"Smartphones have made loneliness worse, not better."</p>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="topic-body">
+      <div class="section">
+        <p class="section-label">Case studies</p>
+        <ul>
+          <li><strong>Japan's hikikomori</strong> — young people who lock themselves in their rooms for years, entirely mediated by screens; estimated 1 million+ affected</li>
+          <li><strong>The iPhone effect</strong> — a phone on the table (even face-down) makes conversations measurably shallower, per a University of Essex study</li>
+          <li><strong>Facebook VP's confession</strong> — Chamath Palihapitiya publicly said he feels "tremendous guilt" for building tools "ripping apart the social fabric"</li>
+          <li><strong>South Korea</strong> — government-funded camps to de-addict teenagers from their phones; treated as a public health crisis</li>
+          <li><strong>Opposite angle</strong> — for disabled or isolated people, smartphones are their only social lifeline; loneliness predates the smartphone era</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-label blue">Feed him these</p>
+        <div class="feed-box">
+          <p>Do you use your phone to avoid eye contact or awkward silences?</p>
+          <p>Did people used to talk to strangers on trains — and is that actually better?</p>
+          <p>Is being surrounded by people the same as not being lonely?</p>
+          <p>Push back: "But you can call your mother in Ukraine anytime now — isn't that worth it?"</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card" onclick="toggle(this)">
-    <span class="num">2</span>
-    <div>
-      <span class="tag">History</span>
-      <p class="statement">"Germany has dealt with its past better than almost any country — and most nations never do."</p>
+  <!-- 2 -->
+  <div class="topic" onclick="toggle(this)">
+    <div class="topic-header">
+      <span class="topic-num">02</span>
+      <div class="topic-title">
+        <span class="tag">History</span>
+        <p class="statement">"Germany has dealt with its past better than almost any country — and most nations never do."</p>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="topic-body">
+      <div class="section">
+        <p class="section-label">Case studies</p>
+        <ul>
+          <li><strong>Vergangenheitsbewältigung</strong> — Germany has a specific word for "coming to terms with the past"; it's mandatory in every school curriculum</li>
+          <li><strong>Japan vs neighbours</strong> — official disputes with China and South Korea persist today over how WWII is taught in Japanese textbooks</li>
+          <li><strong>Russia</strong> — Soviet crimes (Gulag, Holodomor, Afghanistan) are largely absent from the official curriculum; actively distorted</li>
+          <li><strong>United States</strong> — several states are currently passing laws banning or limiting the teaching of slavery's full history in schools</li>
+          <li><strong>Belgium & Congo</strong> — Belgium has never formally acknowledged the Congo genocide under Leopold II; estimated 10 million dead</li>
+          <li><strong>Provocative flip</strong> — does obsessive national guilt eventually become performative? Is Germany's identity now defined more by guilt than by anything else?</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-label blue">Feed him these</p>
+        <div class="feed-box">
+          <p>Living in Germany — does he notice Germans talking about WWII openly, or is it avoided in daily life?</p>
+          <p>Should statues of controversial historical figures be removed, or kept as reminders?</p>
+          <p>Does knowing a country's history change how you feel about living there?</p>
+          <p>Push back: "Ukraine's own history with the Soviet period is complicated — whose job is it to tell that story honestly?"</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card" onclick="toggle(this)">
-    <span class="num">3</span>
-    <div>
-      <span class="tag">Education</span>
-      <p class="statement">"Most of what schools teach is completely useless in real life."</p>
+  <!-- 3 -->
+  <div class="topic" onclick="toggle(this)">
+    <div class="topic-header">
+      <span class="topic-num">03</span>
+      <div class="topic-title">
+        <span class="tag">Education</span>
+        <p class="statement">"Most of what schools teach is completely useless in real life."</p>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="topic-body">
+      <div class="section">
+        <p class="section-label">Case studies</p>
+        <ul>
+          <li><strong>Finland's overhaul</strong> — replaced traditional subjects with "phenomenon-based learning"; students study climate change across maths, science, and geography simultaneously</li>
+          <li><strong>Peter Thiel's fellowship</strong> — pays talented young people $100,000 to drop out of university; argues college is a bubble selling an expensive credential</li>
+          <li><strong>South Korea's exam hell</strong> — students study 16 hours a day for one test (Suneung) that determines their entire life; suicide rates spike around exam season</li>
+          <li><strong>Germany's Ausbildung</strong> — apprenticeship system is arguably the most successful vocational education model in the world; produces skilled tradespeople without university debt</li>
+          <li><strong>Counterpoint</strong> — university graduates consistently earn more and live longer; but is that the education, or just who gets selected into it?</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-label blue">Feed him these</p>
+        <div class="feed-box">
+          <p>After all those years of medical school — what did he actually learn on the job that school didn't prepare him for?</p>
+          <p>Should people be able to become doctors through alternative routes — apprenticeships, AI-assisted training?</p>
+          <p>What subject from school does he actually use? (If he says none — push him to defend that.)</p>
+          <p>Push back: "But if there were no medical school, would you trust a doctor who hadn't gone through it?"</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card" onclick="toggle(this)">
-    <span class="num">4</span>
-    <div>
-      <span class="tag">Artificial intelligence</span>
-      <p class="statement">"AI will make doctors unnecessary within 30 years."</p>
+  <!-- 4 -->
+  <div class="topic" onclick="toggle(this)">
+    <div class="topic-header">
+      <span class="topic-num">04</span>
+      <div class="topic-title">
+        <span class="tag">Artificial intelligence</span>
+        <p class="statement">"AI will make doctors unnecessary within 30 years."</p>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="topic-body">
+      <div class="section">
+        <p class="section-label">Case studies</p>
+        <ul>
+          <li><strong>AlphaFold</strong> — DeepMind solved protein folding in months; a problem that stumped biologists for 50 years; immediately used in drug discovery</li>
+          <li><strong>Breast cancer detection</strong> — AI detected cancer from mammograms with fewer false positives than radiologists, per a 2020 Nature study</li>
+          <li><strong>IDx-DR</strong> — first FDA-approved AI that diagnoses diabetic retinopathy without a doctor reviewing the result</li>
+          <li><strong>Babylon Health failure</strong> — AI triage app outperformed junior doctors on a licensing exam; also told real patients with serious symptoms they were fine</li>
+          <li><strong>Counterpoint</strong> — medicine is not just diagnosis; it's managing fear, communicating death, making ethical trade-offs with a human being in a room</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-label blue">Feed him these</p>
+        <div class="feed-box">
+          <p>Has he ever had a patient who needed something that wasn't in any textbook — something a machine couldn't give?</p>
+          <p>If an AI makes a wrong diagnosis and a patient dies — who is responsible? The hospital? The software company?</p>
+          <p>Would he trust an AI's diagnosis for himself, or would he want a second human opinion?</p>
+          <p>Push back: "Pilots still exist even though planes can fly themselves — why would doctors be different?"</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card" onclick="toggle(this)">
-    <span class="num">5</span>
-    <div>
-      <span class="tag">Culture</span>
-      <p class="statement">"Watching a great film is just as intellectually valuable as reading a book."</p>
+  <!-- 5 -->
+  <div class="topic" onclick="toggle(this)">
+    <div class="topic-header">
+      <span class="topic-num">05</span>
+      <div class="topic-title">
+        <span class="tag">Culture</span>
+        <p class="statement">"Watching a great film is just as intellectually valuable as reading a book."</p>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="topic-body">
+      <div class="section">
+        <p class="section-label">Case studies</p>
+        <ul>
+          <li><strong>Chernobyl (HBO, 2019)</strong> — sparked a massive surge in historical reading about the Soviet Union; tourism to the exclusion zone tripled after the series aired</li>
+          <li><strong>The Wire</strong> — taught in university sociology and criminology courses as a serious academic text on urban poverty and failing institutions</li>
+          <li><strong>Nicholas Carr's The Shallows</strong> — argues screens are literally rewiring our brains to be incapable of reading long-form text; attention spans measurably shorter</li>
+          <li><strong>Reading by country</strong> — the average Norwegian reads 47 books a year; the average American reads 4; the average Ukrainian reads more than both; is this cultural or structural?</li>
+          <li><strong>Provocative flip</strong> — is someone who has seen every Tarkovsky film more "cultured" than someone who only reads airport thrillers?</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-label blue">Feed him these</p>
+        <div class="feed-box">
+          <p>What was the last film or series he watched? — don't ask what he liked; ask what he found unrealistic or disagreed with.</p>
+          <p>Has a film ever made him think differently about something — genuinely changed his mind?</p>
+          <p>Is audiobooks "reading"? Does the format change what you get from it?</p>
+          <p>Push back: "But you can't skim a film — you can't go back and re-read a difficult scene the way you can a paragraph."</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card" onclick="toggle(this)">
-    <span class="num">6</span>
-    <div>
-      <span class="tag">Reading & literature</span>
-      <p class="statement">"People who don't read books are at a serious disadvantage in life — whether they know it or not."</p>
+  <!-- 6 -->
+  <div class="topic" onclick="toggle(this)">
+    <div class="topic-header">
+      <span class="topic-num">06</span>
+      <div class="topic-title">
+        <span class="tag">Reading & literature</span>
+        <p class="statement">"People who don't read books are at a serious disadvantage in life — whether they know it or not."</p>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="topic-body">
+      <div class="section">
+        <p class="section-label">Case studies</p>
+        <ul>
+          <li><strong>Theory of mind studies</strong> — reading literary fiction specifically improves the ability to understand what other people are feeling; non-readers score measurably lower on empathy tests</li>
+          <li><strong>Warren Buffett</strong> — spends roughly 80% of his working day reading; credits it as the single most important habit of his career</li>
+          <li><strong>Cuba</strong> — 99.8% literacy rate; one of the most well-read populations in the world despite extreme poverty; reading was a revolutionary political act under Castro</li>
+          <li><strong>The Matthew effect</strong> — children who read early become better readers exponentially faster; non-readers fall further behind; the gap is nearly impossible to close after age 10</li>
+          <li><strong>Socrates counterpoint</strong> — never wrote anything down; thought writing made people intellectually lazy; argued real knowledge only comes from dialogue</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-label blue">Feed him these</p>
+        <div class="feed-box">
+          <p>When did he last read a book that wasn't medical — and what was it?</p>
+          <p>Does he think non-reading doctors are worse doctors — or does clinical experience compensate?</p>
+          <p>Is there a difference between reading for information and reading for pleasure — and does it matter which one you do?</p>
+          <p>Push back: "Elon Musk reads constantly — so does Putin. Reading doesn't make you a good person. So what exactly does it give you?"</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="card" onclick="toggle(this)">
-    <span class="num">7</span>
-    <div>
-      <span class="tag">Privacy</span>
-      <p class="statement">"People who say 'I have nothing to hide' don't understand what privacy actually is."</p>
+  <!-- 7 -->
+  <div class="topic" onclick="toggle(this)">
+    <div class="topic-header">
+      <span class="topic-num">07</span>
+      <div class="topic-title">
+        <span class="tag">Privacy</span>
+        <p class="statement">"People who say 'I have nothing to hide' don't understand what privacy actually is."</p>
+      </div>
+      <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+    <div class="topic-body">
+      <div class="section">
+        <p class="section-label">Case studies</p>
+        <ul>
+          <li><strong>China's Social Credit System</strong> — citizens lose access to trains, flights, and schools based on behavior scores; some cities display the faces of "deadbeats" on public screens</li>
+          <li><strong>Snowden revelations</strong> — the NSA was collecting every American's phone metadata, legally, with government approval, in total secrecy for years</li>
+          <li><strong>Cambridge Analytica</strong> — harvested Facebook data from 87 million people without consent; used it to micro-target voters in Brexit and the 2016 US election</li>
+          <li><strong>Glenn Greenwald's rebuttal</strong> — "Ask people to email you their passwords — they won't, even though they have nothing to hide"</li>
+          <li><strong>Safety trade-off</strong> — CCTV in London has helped prevent or solve multiple terrorist attacks; there is a genuine, concrete benefit to surveillance</li>
+        </ul>
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <p class="section-label blue">Feed him these</p>
+        <div class="feed-box">
+          <p>As a doctor, his patients' data is among the most sensitive that exists — how does he think about who owns it?</p>
+          <p>Should patient data be available to AI companies if it could save millions of lives — even without individual consent?</p>
+          <p>Does he feel more surveilled in Germany than in Ukraine, or less?</p>
+          <p>Push back: "If a government is democratic and trustworthy, does the surveillance argument even apply?"</p>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>
 
+<footer>
+  ESL speaking lessons — teacher reference &nbsp;·&nbsp; not for student view
+</footer>
+
 <script>
-function toggle(el) {
-  el.classList.toggle('selected');
-}
+  function toggle(el) {
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.topic').forEach(t => t.classList.remove('open'));
+    if (!isOpen) el.classList.add('open');
+  }
 </script>
+
+</body>
+</html>
