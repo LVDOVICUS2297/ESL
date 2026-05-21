@@ -1,0 +1,315 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary);font-size:14px}
+.wrap{padding:1rem}
+.top-row{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:start;margin-bottom:16px}
+.silhouette-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.profile-name-row{display:flex;gap:6px;width:100%}
+.profile-name-row input{flex:1;padding:5px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);font-size:12px;color:var(--color-text-primary)}
+.gender-btns{display:flex;gap:4px}
+.gender-btns button{padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;font-size:11px;color:var(--color-text-secondary)}
+.gender-btns button.active{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.profile-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;min-height:280px}
+.profile-card h3{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px}
+.tag-area{display:flex;flex-wrap:wrap;gap:5px;min-height:24px;margin-bottom:8px}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:500}
+.tag button{border:none;background:none;cursor:pointer;font-size:13px;line-height:1;padding:0;color:inherit;opacity:.6}
+.sentence-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;min-height:48px;margin-top:8px}
+.construction-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
+.construction-row select{padding:4px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);font-size:12px;color:var(--color-text-primary);flex:1}
+.cat-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
+.cat-tab{padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:11px;cursor:pointer;color:var(--color-text-secondary);font-weight:500}
+.cat-tab.active{color:var(--color-text-primary);border-color:var(--color-border-primary);background:var(--color-background-primary)}
+.word-grid{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.word-chip{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:0.5px solid;transition:opacity .1s;font-weight:500}
+.word-chip:hover{opacity:.75}
+.word-chip.used{opacity:.35;cursor:default}
+.def-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:12px;color:var(--color-text-secondary);min-height:36px;line-height:1.5}
+.section-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
+.grammar-section{margin-top:10px}
+.grammar-section .section-label{margin-bottom:6px}
+.construct-chips{display:flex;flex-wrap:wrap;gap:5px}
+.construct-chip{padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:11px;cursor:pointer;color:var(--color-text-secondary)}
+.construct-chip.sel{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
+.reveal-btn{width:100%;margin-top:10px;padding:9px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.profile-para{font-size:13px;color:var(--color-text-primary);line-height:1.8;padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-top:8px;display:none}
+.profile-para.show{display:block}
+.clear-btn{padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:11px;color:var(--color-text-secondary);float:right}
+</style>
+
+<h2 class="sr-only">Ideal partner profile builder — ESL vocabulary and grammar game</h2>
+<div class="wrap">
+
+<div class="top-row">
+  <div class="silhouette-box">
+    <div class="profile-name-row">
+      <input type="text" id="partnerName" placeholder="Partner's name..." oninput="updateProfile()">
+    </div>
+    <div class="gender-btns">
+      <button onclick="setGender('f')" class="active" id="gf">She / her</button>
+      <button onclick="setGender('m')" id="gm">He / him</button>
+      <button onclick="setGender('t')" id="gt">They</button>
+    </div>
+    <svg id="silhouette" viewBox="0 0 120 180" width="100" height="150" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="60" cy="38" r="26" fill="#CECBF6"/>
+      <ellipse cx="60" cy="130" rx="38" ry="50" fill="#CECBF6"/>
+      <ellipse cx="28" cy="108" rx="12" ry="32" fill="#CECBF6"/>
+      <ellipse cx="92" cy="108" rx="12" ry="32" fill="#CECBF6"/>
+    </svg>
+    <div style="font-size:11px;color:var(--color-text-secondary);text-align:center" id="tagCount">0 traits added</div>
+  </div>
+
+  <div>
+    <div class="profile-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <h3 id="profileTitle">My ideal partner</h3>
+        <button class="clear-btn" onclick="clearAll()"><i class="ti ti-trash" aria-hidden="true"></i> clear</button>
+      </div>
+      <div id="tagDisplay" class="tag-area"><span style="font-size:12px;color:var(--color-text-secondary);font-style:italic">Pick words from the bank below...</span></div>
+      <div class="construction-row">
+        <select id="constructSel" onchange="updateSentence()">
+          <option value="is">___ is...</option>
+          <option value="has">___ has...</option>
+          <option value="tends">___ tends to be...</option>
+          <option value="kind">___ is the kind of person who...</option>
+          <option value="love">One thing I love about ___ is that ___</option>
+          <option value="never">___ is never boring — ___</option>
+          <option value="important">What's important to me is that ___</option>
+        </select>
+      </div>
+      <div class="sentence-box" id="sentenceBox">Choose a grammar construction above, then add words.</div>
+      <div class="profile-para" id="profilePara"></div>
+      <button class="reveal-btn" onclick="revealProfile()"><i class="ti ti-heart" aria-hidden="true"></i> reveal full profile</button>
+    </div>
+  </div>
+</div>
+
+<div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem">
+  <div class="cat-tabs" id="catTabs"></div>
+  <div class="word-grid" id="wordGrid"></div>
+  <div class="def-box" id="defBox">Hover over a word to see its definition.</div>
+
+  <div class="grammar-section">
+    <div class="section-label">Grammar constructions — click one to use it</div>
+    <div class="construct-chips" id="constructChips"></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+const PRN = {f:['She','Her','she','her'],m:['He','His','he','him'],t:['They','Their','they','them']};
+let gender = 'f';
+let selected = [];
+let activeCat = 0;
+let hoveredWord = null;
+
+const cats = [
+  {
+    label:'Appearance',color:'#EEEDFE',tc:'#3C3489',bc:'#AFA9EC',
+    words:[
+      {w:'striking',d:'so attractive that people immediately notice them'},
+      {w:'elegant',d:'graceful and stylish in appearance and manner'},
+      {w:'athletic',d:'physically strong and fit, with an active body'},
+      {w:'well-groomed',d:'neat and carefully dressed at all times'},
+      {w:'radiant',d:'glowing with health, energy, or happiness'},
+      {w:'tall',d:'above average in height'},
+      {w:'slim',d:'thin in an attractive, healthy way'},
+      {w:'distinctive',d:'having a quality that makes them stand out from others'},
+    ]
+  },
+  {
+    label:'Personality',color:'#FBEAF0',tc:'#72243E',bc:'#ED93B1',
+    words:[
+      {w:'warm',d:'friendly and caring toward other people'},
+      {w:'witty',d:'clever and funny — makes people laugh with smart remarks'},
+      {w:'charismatic',d:'naturally charming — people are drawn to them'},
+      {w:'genuine',d:'honest and sincere — no pretending or false behaviour'},
+      {w:'adventurous',d:'willing to try new, exciting, and risky things'},
+      {w:'laid-back',d:'relaxed and not easily stressed or worried'},
+      {w:'driven',d:'very motivated — works hard to achieve their goals'},
+      {w:'playful',d:'fun and light-hearted — likes to joke around'},
+    ]
+  },
+  {
+    label:'Emotional style',color:'#E1F5EE',tc:'#085041',bc:'#5DCAA5',
+    words:[
+      {w:'empathetic',d:'understands and shares other people\'s feelings deeply'},
+      {w:'emotionally mature',d:'handles difficult feelings in a calm, adult way'},
+      {w:'affectionate',d:'shows love and warmth through words and touch'},
+      {w:'secure',d:'comfortable with themselves — not jealous or clingy'},
+      {w:'communicative',d:'talks openly and honestly about how they feel'},
+      {w:'patient',d:'stays calm even in frustrating or slow situations'},
+      {w:'supportive',d:'encourages and helps you when things get difficult'},
+      {w:'grounded',d:'stable and balanced — not easily swayed by drama'},
+    ]
+  },
+  {
+    label:'Intellect',color:'#E6F1FB',tc:'#0C447C',bc:'#85B7EB',
+    words:[
+      {w:'curious',d:'always wants to learn about new things and ideas'},
+      {w:'sharp',d:'quick to understand things — very mentally alert'},
+      {w:'open-minded',d:'willing to consider ideas different from their own'},
+      {w:'well-read',d:'has read a lot and knows about many subjects'},
+      {w:'thoughtful',d:'thinks carefully before speaking or acting'},
+      {w:'creative',d:'has a strong imagination — comes up with original ideas'},
+      {w:'articulate',d:'expresses ideas clearly and precisely in words'},
+      {w:'analytical',d:'good at breaking down complex problems logically'},
+    ]
+  },
+  {
+    label:'Lifestyle',color:'#FAEEDA',tc:'#633806',bc:'#EF9F27',
+    words:[
+      {w:'ambitious',d:'has big goals and works hard to achieve them'},
+      {w:'independent',d:'can take care of themselves — doesn\'t need constant attention'},
+      {w:'sociable',d:'enjoys spending time with different people'},
+      {w:'active',d:'enjoys physical activities — doesn\'t like sitting still'},
+      {w:'well-travelled',d:'has visited many places and appreciates other cultures'},
+      {w:'family-oriented',d:'values family deeply and makes it a priority'},
+      {w:'health-conscious',d:'pays attention to what they eat and how they live'},
+      {w:'culturally curious',d:'interested in art, music, food, and ideas from around the world'},
+    ]
+  },
+];
+
+const constructions = [
+  {t:'___ is...', v:'is'},
+  {t:'___ has...', v:'has'},
+  {t:'___ tends to be...', v:'tends'},
+  {t:'___ is the kind of person who...', v:'kind'},
+  {t:'One thing I love about ___ is...', v:'love'},
+  {t:"What's important to me is that...", v:'important'},
+  {t:'___ is never boring — ___', v:'never'},
+];
+
+function setGender(g){
+  gender=g;
+  ['f','m','t'].forEach(x=>document.getElementById('g'+x).classList.remove('active'));
+  document.getElementById('g'+g).classList.add('active');
+  const svg=document.getElementById('silhouette');
+  if(g==='f'){
+    svg.innerHTML=`<circle cx="60" cy="38" r="26" fill="#CECBF6"/><ellipse cx="60" cy="140" rx="42" ry="50" fill="#CECBF6"/><ellipse cx="22" cy="108" rx="11" ry="30" fill="#CECBF6"/><ellipse cx="98" cy="108" rx="11" ry="30" fill="#CECBF6"/>`;
+  } else if(g==='m'){
+    svg.innerHTML=`<circle cx="60" cy="38" r="26" fill="#B5D4F4"/><rect x="24" y="90" width="72" height="90" rx="6" fill="#B5D4F4"/><ellipse cx="20" cy="112" rx="11" ry="32" fill="#B5D4F4"/><ellipse cx="100" cy="112" rx="11" ry="32" fill="#B5D4F4"/>`;
+  } else {
+    svg.innerHTML=`<circle cx="60" cy="38" r="26" fill="#9FE1CB"/><ellipse cx="60" cy="135" rx="40" ry="50" fill="#9FE1CB"/><ellipse cx="21" cy="110" rx="11" ry="31" fill="#9FE1CB"/><ellipse cx="99" cy="110" rx="11" ry="31" fill="#9FE1CB"/>`;
+  }
+  updateProfile();
+}
+
+function getPronouns(){return PRN[gender];}
+
+function renderCatTabs(){
+  const el=document.getElementById('catTabs');
+  el.innerHTML=cats.map((c,i)=>`<button class="cat-tab${i===activeCat?' active':''}" onclick="selectCat(${i})" style="${i===activeCat?'background:'+c.color+';color:'+c.tc+';border-color:'+c.bc:''}">${c.label}</button>`).join('');
+}
+
+function renderWords(){
+  const el=document.getElementById('wordGrid');
+  const cat=cats[activeCat];
+  el.innerHTML=cat.words.map(w=>{
+    const used=selected.find(s=>s.w===w.w);
+    return `<span class="word-chip${used?' used':''}" style="background:${cat.color};color:${cat.tc};border-color:${cat.bc}" onmouseenter="showDef('${w.w.replace(/'/g,"\\'")}','${w.d.replace(/'/g,"\\'")}',${activeCat})" onmouseleave="clearDef()" onclick="addWord('${w.w.replace(/'/g,"\\'")}',${activeCat})">${w.w}</span>`;
+  }).join('');
+}
+
+function renderConstructChips(){
+  const el=document.getElementById('constructChips');
+  const cur=document.getElementById('constructSel').value;
+  el.innerHTML=constructions.map(c=>`<span class="construct-chip${c.v===cur?' sel':''}" onclick="selectConstruct('${c.v}')">${c.t}</span>`).join('');
+}
+
+function selectCat(i){activeCat=i;renderCatTabs();renderWords();}
+
+function showDef(w,d,ci){
+  document.getElementById('defBox').innerHTML=`<strong style="color:${cats[ci].tc}">${w}</strong> — ${d}`;
+}
+function clearDef(){document.getElementById('defBox').textContent='Hover over a word to see its definition.';}
+
+function addWord(w,ci){
+  if(selected.find(s=>s.w===w))return;
+  selected.push({w,ci});
+  updateProfile();
+  renderWords();
+}
+
+function removeWord(w){
+  selected=selected.filter(s=>s.w!==w);
+  updateProfile();
+  renderWords();
+}
+
+function clearAll(){
+  selected=[];
+  document.getElementById('partnerName').value='';
+  document.getElementById('profilePara').classList.remove('show');
+  updateProfile();
+  renderWords();
+}
+
+function updateProfile(){
+  const name=document.getElementById('partnerName').value||'my ideal partner';
+  document.getElementById('profileTitle').textContent=name;
+  const P=getPronouns();
+  const tagEl=document.getElementById('tagDisplay');
+  if(!selected.length){
+    tagEl.innerHTML='<span style="font-size:12px;color:var(--color-text-secondary);font-style:italic">Pick words from the bank below...</span>';
+  } else {
+    tagEl.innerHTML=selected.map(s=>{
+      const cat=cats[s.ci];
+      return `<span class="tag" style="background:${cat.color};color:${cat.tc};border:0.5px solid ${cat.bc}">${s.w} <button onclick="removeWord('${s.w.replace(/'/g,"\\'")}')">×</button></span>`;
+    }).join('');
+  }
+  document.getElementById('tagCount').textContent=selected.length+' trait'+(selected.length===1?'':'s')+' added';
+  updateSentence();
+}
+
+function selectConstruct(v){
+  document.getElementById('constructSel').value=v;
+  renderConstructChips();
+  updateSentence();
+}
+
+function updateSentence(){
+  renderConstructChips();
+  const v=document.getElementById('constructSel').value;
+  const name=document.getElementById('partnerName').value||'they';
+  const P=getPronouns();
+  const pr=P[0];
+  const traits=selected.map(s=>s.w);
+  if(!traits.length){document.getElementById('sentenceBox').textContent='Choose a grammar construction above, then add words.';return;}
+  const t=traits.slice(0,3).join(', ');
+  let sentence='';
+  if(v==='is') sentence=`${pr} is ${t}.`;
+  else if(v==='has') sentence=`${pr} has a ${traits[0]||'...'} personality.`;
+  else if(v==='tends') sentence=`${pr} tends to be ${t}.`;
+  else if(v==='kind') sentence=`${pr} is the kind of person who is ${t}.`;
+  else if(v==='love') sentence=`One thing I love about ${name} is that ${P[2]} is so ${traits[0]||'...'}.`;
+  else if(v==='important') sentence=`What's important to me is that ${P[2]} is ${t}.`;
+  else if(v==='never') sentence=`${pr} is never boring — ${P[2]}'s ${traits[0]||'...'} and ${traits[1]||'interesting'}.`;
+  document.getElementById('sentenceBox').textContent=sentence;
+}
+
+function revealProfile(){
+  const name=document.getElementById('partnerName').value||'my ideal partner';
+  const P=getPronouns();
+  const pr=P[0];const prp=P[1];const probj=P[3];
+  const bycat=[0,1,2,3,4].map(i=>selected.filter(s=>s.ci===i).map(s=>s.w));
+  let para='';
+  if(bycat[0].length) para+=`${pr} is ${bycat[0].join(' and ')}. `;
+  if(bycat[1].length) para+=`${prp} personality is ${bycat[1].join(', ')} — the kind of person you immediately enjoy being around. `;
+  if(bycat[2].length) para+=`Emotionally, ${P[2]} is ${bycat[2].join(' and ')}, which means ${P[2]} handles feelings with care. `;
+  if(bycat[3].length) para+=`Intellectually, ${P[2]}'s ${bycat[3].join(' and ')} — conversations with ${probj} never feel dull. `;
+  if(bycat[4].length) para+=`In terms of lifestyle, ${P[2]} is ${bycat[4].join(' and ')}. `;
+  if(!para) para='Add some traits first to reveal the full profile!';
+  const el=document.getElementById('profilePara');
+  el.textContent=para;
+  el.classList.add('show');
+}
+
+selectCat(0);
+renderConstructChips();
+updateProfile();
+setGender('f');
+</script>
