@@ -1,309 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ideal Partner Profile — ESL Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-sans);color:var(--color-text-primary);font-size:14px}
-.wrap{padding:1rem}
-.top-row{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:start;margin-bottom:16px}
-.silhouette-box{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px;display:flex;flex-direction:column;al[...]
-.profile-name-row{display:flex;gap:6px;width:100%}
-.profile-name-row input{flex:1;padding:5px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);font-size:12px;color[...]
-.gender-btns{display:flex;gap:4px}
-.gender-btns button{padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;font-size:11px[...]
-.gender-btns button.active{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
-.profile-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem;min-height:280px}
-.profile-card h3{font-size:13px;font-weight:500;color:var(--color-text-secondary);margin-bottom:8px}
-.tag-area{display:flex;flex-wrap:wrap;gap:5px;min-height:24px;margin-bottom:8px}
-.tag{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:500}
-.tag button{border:none;background:none;cursor:pointer;font-size:13px;line-height:1;padding:0;color:inherit;opacity:.6}
-.sentence-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;min-height:48px;m[...]
-.construction-row{display:flex;align-items:center;gap:6px;margin-bottom:6px}
-.construction-row select{padding:4px 8px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);font-size:12px;color:var([...]
-.cat-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px}
-.cat-tab{padding:5px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:11px;cursor:pointer;color:va[...]
-.cat-tab.active{color:var(--color-text-primary);border-color:var(--color-border-primary);background:var(--color-background-primary)}
-.word-grid{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
-.word-chip{padding:4px 10px;border-radius:20px;font-size:11px;cursor:pointer;border:0.5px solid;transition:opacity .1s;font-weight:500}
-.word-chip:hover{opacity:.75}
-.word-chip.used{opacity:.35;cursor:default}
-.def-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:8px 10px;font-size:12px;color:var(--color-text-secondary);min-height:36px;line-height:1.5}
-.section-label{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:5px;text-transform:uppercase;letter-spacing:.04em}
-.grammar-section{margin-top:10px}
-.grammar-section .section-label{margin-bottom:6px}
-.construct-chips{display:flex;flex-wrap:wrap;gap:5px}
-.construct-chip{padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);font-size:11px;cursor:pointer;c[...]
-.construct-chip.sel{background:#EEEDFE;color:#3C3489;border-color:#AFA9EC}
-.reveal-btn{width:100%;margin-top:10px;padding:9px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointe[...]
-.profile-para{font-size:13px;color:var(--color-text-primary);line-height:1.8;padding:10px;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-top:8px;display:[...]
-.profile-para.show{display:block}
-.clear-btn{padding:4px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:transparent;cursor:pointer;font-size:11px;color:var(--color-text-secon[...]
+  :root {
+    --bg: #FAF8F5;
+    --surface: #FFFFFF;
+    --surface2: #F2EFE9;
+    --border: rgba(0,0,0,0.08);
+    --border-strong: rgba(0,0,0,0.15);
+    --text: #1A1714;
+    --text-muted: #8A8076;
+    --text-faint: #B8B0A6;
+    --accent: #C9506A;
+    --accent-bg: #FDF0F2;
+    --purple: #7B5EA7;
+    --purple-bg: #F3EFFE;
+    --teal: #2A8C6E;
+    --teal-bg: #E8F7F2;
+    --amber: #B06A1A;
+    --amber-bg: #FEF5E7;
+    --blue: #2B6CB0;
+    --blue-bg: #EBF4FF;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --radius-pill: 100px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 1.25rem 2rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--text);
+  }
+
+  header p {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .badge-header {
+    margin-left: auto;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .pill-pink { background: #FDE8EC; color: #A03050; }
+  .pill-gray { background: var(--surface2); color: var(--text-muted); }
+  .pill-teal { background: var(--teal-bg); color: var(--teal); }
+
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* LEFT COLUMN */
+  .left-col { display: flex; flex-direction: column; gap: 14px; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+  }
+
+  .card-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+  }
+
+  .name-input {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    outline: none;
+    transition: border-color .15s;
+    margin-bottom: 10px;
+  }
+  .name-input:focus { border-color: var(--accent); }
+  .name-input::placeholder { color: var(--text-faint); }
+
+  .gender-row { display: flex; gap: 5px; }
+  .gender-btn {
+    flex: 1;
+    padding: 6px 4px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .15s;
+    text-align: center;
+  }
+  .gender-btn.active {
+    background: #FDE8EC;
+    color: var(--accent);
+    border-color: #F0A0B0;
+    font-weight: 500;
+  }
+
+  .silhouette-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 12px 0 0;
+    min-height: 140px;
+  }
+
+  .trait-count {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  /* PROFILE CARD */
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .profile-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text);
+  }
+
+  .clear-btn {
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .clear-btn:hover { background: var(--surface2); color: var(--text); }
+
+  .tag-area {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    min-height: 36px;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    margin-bottom: 14px;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px 3px 10px;
+    border-radius: var(--radius-pill);
+    font-size: 12px;
+    font-weight: 500;
+    animation: tagIn .15s ease;
+  }
+  @keyframes tagIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .tag button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+    color: inherit;
+    opacity: 0.5;
+    transition: opacity .1s;
+  }
+  .tag button:hover { opacity: 1; }
+
+  .empty-hint {
+    font-size: 13px;
+    color: var(--text-faint);
+    font-style: italic;
+    padding: 4px 0;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+
+  .construct-select {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A8076' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 28px;
+  }
+  .construct-select:focus { border-color: var(--accent); }
+
+  .sentence-preview {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    font-style: italic;
+    min-height: 44px;
+    margin-bottom: 14px;
+  }
+
+  .construct-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 14px;
+  }
+  .construct-chip {
+    padding: 4px 10px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .12s;
+  }
+  .construct-chip:hover { background: var(--surface2); color: var(--text); }
+  .construct-chip.sel { background: #FDE8EC; color: var(--accent); border-color: #F0A0B0; font-weight: 500; }
+
+  .reveal-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-strong);
+    background: var(--text);
+    color: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .15s;
+    letter-spacing: 0.02em;
+  }
+  .reveal-btn:hover { background: var(--accent); border-color: var(--accent); }
+
+  .profile-para {
+    margin-top: 12px;
+    padding: 12px 14px;
+    background: #FDF0F2;
+    border-radius: var(--radius-sm);
+    border: 1px solid #F5C0CC;
+    font-size: 13px;
+    color: #5A1A28;
+    line-height: 1.8;
+    display: none;
+    animation: fadeIn .3s ease;
+  }
+  .profile-para.show { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* BOTTOM: VOCAB BANK */
+  .vocab-section {
+    max-width: 960px;
+    margin: 0 auto 2rem;
+    padding: 0 1.5rem;
+  }
+
+  .cat-tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .cat-tab {
+    padding: 6px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-strong);
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all .12s;
+  }
+  .cat-tab:hover { background: var(--surface); }
+  .cat-tab.active { font-weight: 500; }
+
+  .word-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .word-chip {
+    padding: 5px 13px;
+    border-radius: var(--radius-pill);
+    border: 1px solid transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .12s;
+    position: relative;
+  }
+  .word-chip:hover { transform: translateY(-1px); }
+  .word-chip.used { opacity: 0.35; cursor: default; transform: none; }
+
+  .def-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+    min-height: 40px;
+    line-height: 1.6;
+    transition: all .15s;
+  }
+  .def-box strong { color: var(--text); }
+
+  /* GRAMMAR REFERENCE */
+  .grammar-ref {
+    max-width: 960px;
+    margin: 0 auto 3rem;
+    padding: 0 1.5rem;
+  }
+  .grammar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .grammar-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  .grammar-card .pattern {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+  .grammar-card .example {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  footer {
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 12px;
+    color: var(--text-faint);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 640px) {
+    main { grid-template-columns: 1fr; }
+    .left-col { flex-direction: row; flex-wrap: wrap; }
+    .left-col .card { flex: 1 1 200px; }
+  }
 </style>
+</head>
+<body>
 
-<h2 class="sr-only">Ideal partner profile builder — ESL vocabulary and grammar game</h2>
-<div class="wrap">
+<header>
+  <h1>Ideal Partner Profile</h1>
+  <p>ESL speaking & vocabulary game</p>
+  <div class="badge-header">
+    <span class="pill pill-teal">A2 – B1</span>
+    <span class="pill pill-pink">Speaking</span>
+    <span class="pill pill-gray">15–20 min</span>
+  </div>
+</header>
 
-<div class="top-row">
-  <div class="silhouette-box">
-    <div class="profile-name-row">
-      <input type="text" id="partnerName" placeholder="Partner's name..." oninput="updateProfile()">
+<main>
+  <!-- LEFT -->
+  <div class="left-col">
+    <div class="card">
+      <div class="card-label">Who are you designing for?</div>
+      <input type="text" class="name-input" id="partnerName" placeholder="Enter their name..." oninput="updateProfile()">
+      <div class="card-label">Pronouns</div>
+      <div class="gender-row">
+        <button class="gender-btn active" id="gf" onclick="setGender('f')">she/her</button>
+        <button class="gender-btn" id="gm" onclick="setGender('m')">he/him</button>
+        <button class="gender-btn" id="gt" onclick="setGender('t')">they</button>
+      </div>
+      <div class="silhouette-wrap">
+        <svg id="silhouette" viewBox="0 0 100 160" width="90" height="144" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="32" r="22" fill="#F5C0CC"/>
+          <ellipse cx="50" cy="118" rx="34" ry="44" fill="#F5C0CC"/>
+          <ellipse cx="19" cy="100" rx="10" ry="28" fill="#F5C0CC"/>
+          <ellipse cx="81" cy="100" rx="10" ry="28" fill="#F5C0CC"/>
+        </svg>
+      </div>
+      <div class="trait-count" id="traitCount">0 traits added</div>
     </div>
-    <div class="gender-btns">
-      <button onclick="setGender('f')" class="active" id="gf">She / her</button>
-      <button onclick="setGender('m')" id="gm">He / him</button>
-      <button onclick="setGender('t')" id="gt">They</button>
-    </div>
-    <svg id="silhouette" viewBox="0 0 120 180" width="100" height="150" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="60" cy="38" r="26" fill="#CECBF6"/>
-      <ellipse cx="60" cy="130" rx="38" ry="50" fill="#CECBF6"/>
-      <ellipse cx="28" cy="108" rx="12" ry="32" fill="#CECBF6"/>
-      <ellipse cx="92" cy="108" rx="12" ry="32" fill="#CECBF6"/>
-    </svg>
-    <div style="font-size:11px;color:var(--color-text-secondary);text-align:center" id="tagCount">0 traits added</div>
   </div>
 
-  <div>
-    <div class="profile-card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <h3 id="profileTitle">My ideal partner</h3>
-        <button class="clear-btn" onclick="clearAll()"><i class="ti ti-trash" aria-hidden="true"></i> clear</button>
-      </div>
-      <div id="tagDisplay" class="tag-area"><span style="font-size:12px;color:var(--color-text-secondary);font-style:italic">Pick words from the bank below...</span></div>
-      <div class="construction-row">
-        <select id="constructSel" onchange="updateSentence()">
-          <option value="is">___ is...</option>
-          <option value="has">___ has...</option>
-          <option value="tends">___ tends to be...</option>
-          <option value="kind">___ is the kind of person who...</option>
-          <option value="love">One thing I love about ___ is that ___</option>
-          <option value="never">___ is never boring — ___</option>
-          <option value="important">What's important to me is that ___</option>
-        </select>
-      </div>
-      <div class="sentence-box" id="sentenceBox">Choose a grammar construction above, then add words.</div>
-      <div class="profile-para" id="profilePara"></div>
-      <button class="reveal-btn" onclick="revealProfile()"><i class="ti ti-heart" aria-hidden="true"></i> reveal full profile</button>
+  <!-- RIGHT -->
+  <div class="card">
+    <div class="profile-header">
+      <div class="profile-name" id="profileName">My ideal partner</div>
+      <button class="clear-btn" onclick="clearAll()">✕ clear all</button>
     </div>
-  </div>
-</div>
 
-<div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem">
-  <div class="cat-tabs" id="catTabs"></div>
-  <div class="word-grid" id="wordGrid"></div>
-  <div class="def-box" id="defBox">Hover over a word to see its definition.</div>
+    <div class="section-label">Traits selected</div>
+    <div class="tag-area" id="tagArea">
+      <span class="empty-hint">Click words in the vocabulary bank below...</span>
+    </div>
 
-  <div class="grammar-section">
-    <div class="section-label">Grammar constructions — click one to use it</div>
+    <div class="section-label">Grammar construction</div>
     <div class="construct-chips" id="constructChips"></div>
+
+    <div class="section-label">Sentence preview</div>
+    <div class="sentence-preview" id="sentencePreview">Choose a construction above, then add traits.</div>
+
+    <button class="reveal-btn" onclick="revealProfile()">&#10084; Reveal full profile</button>
+    <div class="profile-para" id="profilePara"></div>
+  </div>
+</main>
+
+<!-- VOCAB BANK -->
+<div class="vocab-section">
+  <div class="card">
+    <div class="section-label" style="margin-bottom:12px">Vocabulary bank — click a word to add it to the profile</div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div class="word-grid" id="wordGrid"></div>
+    <div class="def-box" id="defBox">Hover over a word to see its definition and example.</div>
   </div>
 </div>
 
+<!-- GRAMMAR REFERENCE -->
+<div class="grammar-ref">
+  <div class="card">
+    <div class="section-label" style="margin-bottom:12px">Grammar reference — useful constructions</div>
+    <div class="grammar-grid">
+      <div class="grammar-card">
+        <div class="pattern">___ is + adjective</div>
+        <div class="example">"She is warm, witty, and emotionally mature."</div>
+      </div>
+      <div class="grammar-card">
+        <div class="pattern">___ has + noun phrase</div>
+        <div class="example">"He has a very charismatic personality."</div>
+      </div>
+      <div class="grammar-card">
+        <div class="pattern">___ tends to be + adjective</div>
+        <div class="example">"She tends to be laid-back and open-minded."</div>
+      </div>
+      <div class="grammar-card">
+        <div class="pattern">___ is the kind of person who...</div>
+        <div class="example">"He's the kind of person who makes everyone feel welcome."</div>
+      </div>
+      <div class="grammar-card">
+        <div class="pattern">One thing I love about ___ is that...</div>
+        <div class="example">"One thing I love about her is that she's so genuine."</div>
+      </div>
+      <div class="grammar-card">
+        <div class="pattern">What's important to me is that...</div>
+        <div class="example">"What's important to me is that they're emotionally secure."</div>
+      </div>
+      <div class="grammar-card">
+        <div class="pattern">I'd like someone who is / has...</div>
+        <div class="example">"I'd like someone who is adventurous and well-travelled."</div>
+      </div>
+      <div class="grammar-card">
+        <div class="pattern">___ doesn't have to be... but...</div>
+        <div class="example">"He doesn't have to be wealthy, but he should be ambitious."</div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<footer>Ideal Partner Profile Game · ESL Vocabulary &amp; Speaking · A2–B1</footer>
 
 <script>
-const PRN = {f:['She','Her','she','her'],m:['He','His','he','him'],t:['They','Their','they','them']};
+const PRN = {
+  f: { sub:'She', obj:'her', pos:'Her', ref:'she' },
+  m: { sub:'He',  obj:'him', pos:'His', ref:'he' },
+  t: { sub:'They',obj:'them',pos:'Their',ref:'they' }
+};
 let gender = 'f';
 let selected = [];
 let activeCat = 0;
-let hoveredWord = null;
 
 const cats = [
   {
-    label:'Appearance',color:'#EEEDFE',tc:'#3C3489',bc:'#AFA9EC',
+    label:'Appearance', color:'#FDE8EC', tc:'#A03050', bc:'#F0A0B0',
     words:[
-      {w:'striking',d:'so attractive that people immediately notice them'},
-      {w:'elegant',d:'graceful and stylish in appearance and manner'},
-      {w:'athletic',d:'physically strong and fit, with an active body'},
-      {w:'well-groomed',d:'neat and carefully dressed at all times'},
-      {w:'radiant',d:'glowing with health, energy, or happiness'},
-      {w:'tall',d:'above average in height'},
-      {w:'slim',d:'thin in an attractive, healthy way'},
-      {w:'distinctive',d:'having a quality that makes them stand out from others'},
+      {w:'striking',    d:'So attractive that people immediately stop and notice them.',       ex:'"She has a striking smile that lights up the room."'},
+      {w:'elegant',     d:'Graceful and stylish in the way they look and move.',               ex:'"He always looks elegant, even in casual clothes."'},
+      {w:'athletic',    d:'Physically strong and fit — clearly active and healthy.',           ex:'"She has an athletic build from years of swimming."'},
+      {w:'well-groomed',d:'Neat, clean, and carefully dressed at all times.',                  ex:'"He\'s always well-groomed — hair, clothes, everything."'},
+      {w:'radiant',     d:'Glowing with health, energy, or happiness.',                        ex:'"There\'s something radiant about the way she smiles."'},
+      {w:'distinctive', d:'Has a look that makes them stand out — memorable, not generic.',    ex:'"He has quite distinctive features — very expressive eyes."'},
     ]
   },
   {
-    label:'Personality',color:'#FBEAF0',tc:'#72243E',bc:'#ED93B1',
+    label:'Personality', color:'#F3EFFE', tc:'#5A3A8A', bc:'#C0A0E8',
     words:[
-      {w:'warm',d:'friendly and caring toward other people'},
-      {w:'witty',d:'clever and funny — makes people laugh with smart remarks'},
-      {w:'charismatic',d:'naturally charming — people are drawn to them'},
-      {w:'genuine',d:'honest and sincere — no pretending or false behaviour'},
-      {w:'adventurous',d:'willing to try new, exciting, and risky things'},
-      {w:'laid-back',d:'relaxed and not easily stressed or worried'},
-      {w:'driven',d:'very motivated — works hard to achieve their goals'},
-      {w:'playful',d:'fun and light-hearted — likes to joke around'},
+      {w:'warm',         d:'Friendly and caring — makes people feel welcome and valued.',       ex:'"She\'s incredibly warm — you feel at ease within minutes."'},
+      {w:'witty',        d:'Clever and funny — gets laughs with smart, quick remarks.',         ex:'"He\'s witty without being unkind — that\'s rare."'},
+      {w:'charismatic',  d:'Naturally charming — people are drawn to them without effort.',     ex:'"She walks into a room and everyone notices her charisma."'},
+      {w:'genuine',      d:'Honest and sincere — no pretending or performing for others.',      ex:'"What I like most is that he\'s genuinely genuine."'},
+      {w:'adventurous',  d:'Willing to try new, exciting, sometimes risky things.',             ex:'"She\'s adventurous — she said yes to every trip I suggested."'},
+      {w:'laid-back',    d:'Relaxed and calm — not easily stressed or upset.',                  ex:'"He\'s so laid-back, nothing seems to bother him."'},
+      {w:'driven',       d:'Very motivated — works hard and has clear goals.',                  ex:'"She\'s driven — she built her own business at 28."'},
+      {w:'playful',      d:'Fun and light-hearted — likes to joke and tease affectionately.',   ex:'"He\'s playful — every conversation becomes a game."'},
     ]
   },
   {
-    label:'Emotional style',color:'#E1F5EE',tc:'#085041',bc:'#5DCAA5',
+    label:'Emotional style', color:'#E8F7F2', tc:'#1A5C46', bc:'#70CCA8',
     words:[
-      {w:'empathetic',d:'understands and shares other people\'s feelings deeply'},
-      {w:'emotionally mature',d:'handles difficult feelings in a calm, adult way'},
-      {w:'affectionate',d:'shows love and warmth through words and touch'},
-      {w:'secure',d:'comfortable with themselves — not jealous or clingy'},
-      {w:'communicative',d:'talks openly and honestly about how they feel'},
-      {w:'patient',d:'stays calm even in frustrating or slow situations'},
-      {w:'supportive',d:'encourages and helps you when things get difficult'},
-      {w:'grounded',d:'stable and balanced — not easily swayed by drama'},
+      {w:'empathetic',        d:'Understands and truly feels what other people are going through.',   ex:'"She\'s so empathetic — she noticed I was upset before I said a word."'},
+      {w:'emotionally mature', d:'Handles difficult feelings in a calm, adult, non-reactive way.',     ex:'"He\'s emotionally mature — no drama, just honest conversations."'},
+      {w:'affectionate',      d:'Shows love and warmth openly through words, gestures, and touch.',   ex:'"She\'s very affectionate — always a hug, always kind words."'},
+      {w:'secure',            d:'Comfortable with themselves — not jealous, clingy, or needy.',       ex:'"He\'s secure — he never gets jealous or plays games."'},
+      {w:'communicative',     d:'Talks openly and honestly about how they feel — no guessing games.', ex:'"She\'s communicative — she tells me exactly how she feels."'},
+      {w:'patient',           d:'Stays calm and composed even in slow or frustrating situations.',     ex:'"He\'s patient — he waited for me to be ready, no pressure."'},
+      {w:'grounded',          d:'Stable and balanced — not easily swayed by drama or chaos.',         ex:'"She\'s grounded — very calm when everything around her is stressful."'},
     ]
   },
   {
-    label:'Intellect',color:'#E6F1FB',tc:'#0C447C',bc:'#85B7EB',
+    label:'Intellect', color:'#EBF4FF', tc:'#1A4A80', bc:'#80B8F0',
     words:[
-      {w:'curious',d:'always wants to learn about new things and ideas'},
-      {w:'sharp',d:'quick to understand things — very mentally alert'},
-      {w:'open-minded',d:'willing to consider ideas different from their own'},
-      {w:'well-read',d:'has read a lot and knows about many subjects'},
-      {w:'thoughtful',d:'thinks carefully before speaking or acting'},
-      {w:'creative',d:'has a strong imagination — comes up with original ideas'},
-      {w:'articulate',d:'expresses ideas clearly and precisely in words'},
-      {w:'analytical',d:'good at breaking down complex problems logically'},
+      {w:'curious',       d:'Always wants to learn — asks questions, explores new ideas.',          ex:'"He\'s curious about everything — history, science, food, all of it."'},
+      {w:'sharp',         d:'Quick to understand things — mentally fast and alert.',                ex:'"She\'s sharp — she understood the problem before I finished explaining."'},
+      {w:'open-minded',   d:'Willing to consider ideas and views different from their own.',        ex:'"He\'s open-minded — he loves hearing perspectives he disagrees with."'},
+      {w:'well-read',     d:'Has read widely and knows about many different subjects.',             ex:'"She\'s well-read — you can talk to her about almost anything."'},
+      {w:'thoughtful',    d:'Thinks carefully before speaking or acting — considered, not hasty.',  ex:'"He gives thoughtful answers — never just says the first thing."'},
+      {w:'creative',      d:'Has a strong imagination — comes up with original, unexpected ideas.', ex:'"She\'s incredibly creative — her ideas always surprise me."'},
+      {w:'articulate',    d:'Expresses their ideas clearly and precisely using words.',             ex:'"He\'s so articulate — he makes complex things sound simple."'},
     ]
   },
   {
-    label:'Lifestyle',color:'#FAEEDA',tc:'#633806',bc:'#EF9F27',
+    label:'Lifestyle', color:'#FEF5E7', tc:'#7A4010', bc:'#EFB860',
     words:[
-      {w:'ambitious',d:'has big goals and works hard to achieve them'},
-      {w:'independent',d:'can take care of themselves — doesn\'t need constant attention'},
-      {w:'sociable',d:'enjoys spending time with different people'},
-      {w:'active',d:'enjoys physical activities — doesn\'t like sitting still'},
-      {w:'well-travelled',d:'has visited many places and appreciates other cultures'},
-      {w:'family-oriented',d:'values family deeply and makes it a priority'},
-      {w:'health-conscious',d:'pays attention to what they eat and how they live'},
-      {w:'culturally curious',d:'interested in art, music, food, and ideas from around the world'},
+      {w:'ambitious',         d:'Has big goals and works consistently to achieve them.',                    ex:'"She\'s ambitious — she has a five-year plan and she\'s sticking to it."'},
+      {w:'independent',       d:'Can take care of themselves — has their own life, interests, and friends.',ex:'"He\'s independent — he doesn\'t need me to be his whole world."'},
+      {w:'sociable',          d:'Enjoys spending time with different people — easy in social situations.',   ex:'"She\'s sociable — she made friends at the party within 10 minutes."'},
+      {w:'active',            d:'Enjoys physical activities — doesn\'t like sitting still for long.',       ex:'"He\'s active — running, cycling, swimming — always moving."'},
+      {w:'well-travelled',    d:'Has visited many places and appreciates other cultures.',                   ex:'"She\'s well-travelled — she\'s lived on three different continents."'},
+      {w:'family-oriented',   d:'Values family deeply and makes it a central part of life.',                ex:'"He\'s family-oriented — Sunday dinners with his family are non-negotiable."'},
+      {w:'culturally curious',d:'Interested in art, music, food, and ideas from around the world.',        ex:'"She\'s culturally curious — she cooks food from a different country every week."'},
     ]
   },
 ];
 
 const constructions = [
-  {t:'___ is...', v:'is'},
-  {t:'___ has...', v:'has'},
-  {t:'___ tends to be...', v:'tends'},
-  {t:'___ is the kind of person who...', v:'kind'},
-  {t:'One thing I love about ___ is...', v:'love'},
-  {t:"What's important to me is that...", v:'important'},
-  {t:'___ is never boring — ___', v:'never'},
+  { label:'___ is...', v:'is' },
+  { label:'___ has...', v:'has' },
+  { label:'___ tends to be...', v:'tends' },
+  { label:'___ is the kind of person who...', v:'kind' },
+  { label:"One thing I love about ___ is...", v:'love' },
+  { label:"What's important to me is that...", v:'important' },
+  { label:"I'd like someone who is...", v:'like' },
 ];
 
-function setGender(g){
-  gender=g;
-  ['f','m','t'].forEach(x=>document.getElementById('g'+x).classList.remove('active'));
+let activeConstruct = 'is';
+
+function setGender(g) {
+  gender = g;
+  ['f','m','t'].forEach(x => document.getElementById('g'+x).classList.remove('active'));
   document.getElementById('g'+g).classList.add('active');
-  const svg=document.getElementById('silhouette');
-  if(g==='f'){
-    svg.innerHTML=`<circle cx="60" cy="38" r="26" fill="#CECBF6"/><ellipse cx="60" cy="140" rx="42" ry="50" fill="#CECBF6"/><ellipse cx="22" cy="108" rx="11" ry="30" fill="#CECBF6"/><ellipse cx="[...]
-  } else if(g==='m'){
-    svg.innerHTML=`<circle cx="60" cy="38" r="26" fill="#B5D4F4"/><rect x="24" y="90" width="72" height="90" rx="6" fill="#B5D4F4"/><ellipse cx="20" cy="112" rx="11" ry="32" fill="#B5D4F4"/><elli[...]
+  const svg = document.getElementById('silhouette');
+  if (g === 'f') {
+    svg.innerHTML = `<circle cx="50" cy="32" r="22" fill="#F5C0CC"/><ellipse cx="50" cy="118" rx="34" ry="44" fill="#F5C0CC"/><ellipse cx="19" cy="100" rx="10" ry="28" fill="#F5C0CC"/><ellipse cx="81" cy="100" rx="10" ry="28" fill="#F5C0CC"/>`;
+  } else if (g === 'm') {
+    svg.innerHTML = `<circle cx="50" cy="30" r="22" fill="#B5D4F4"/><rect x="18" y="70" width="64" height="76" rx="6" fill="#B5D4F4"/><ellipse cx="12" cy="96" rx="10" ry="28" fill="#B5D4F4"/><ellipse cx="88" cy="96" rx="10" ry="28" fill="#B5D4F4"/>`;
   } else {
-    svg.innerHTML=`<circle cx="60" cy="38" r="26" fill="#9FE1CB"/><ellipse cx="60" cy="135" rx="40" ry="50" fill="#9FE1CB"/><ellipse cx="21" cy="110" rx="11" ry="31" fill="#9FE1CB"/><ellipse cx="[...]
+    svg.innerHTML = `<circle cx="50" cy="30" r="22" fill="#9FE1CB"/><ellipse cx="50" cy="116" rx="36" ry="46" fill="#9FE1CB"/><ellipse cx="17" cy="98" rx="10" ry="29" fill="#9FE1CB"/><ellipse cx="83" cy="98" rx="10" ry="29" fill="#9FE1CB"/>`;
   }
   updateProfile();
 }
 
-function getPronouns(){return PRN[gender];}
+function getP() { return PRN[gender]; }
 
-function renderCatTabs(){
-  const el=document.getElementById('catTabs');
-  el.innerHTML=cats.map((c,i)=>`<button class="cat-tab${i===activeCat?' active':''}" onclick="selectCat(${i})" style="${i===activeCat?'background:'+c.color+';color:'+c.tc+';border-color:'+c.bc:''[...]
+function renderCatTabs() {
+  document.getElementById('catTabs').innerHTML = cats.map((c,i) =>
+    `<button class="cat-tab${i===activeCat?' active':''}" onclick="selectCat(${i})" style="${i===activeCat?`background:${c.color};color:${c.tc};border-color:${c.bc}`:''}">${c.label}</button>`
+  ).join('');
 }
 
-function renderWords(){
-  const el=document.getElementById('wordGrid');
-  const cat=cats[activeCat];
-  el.innerHTML=cat.words.map(w=>{
-    const used=selected.find(s=>s.w===w.w);
-    return `<span class="word-chip${used?' used':''}" style="background:${cat.color};color:${cat.tc};border-color:${cat.bc}" onmouseenter="showDef('${w.w.replace(/'/g,"\\'")}','${w.d.replace(/'/g[...]
+function renderWords() {
+  const cat = cats[activeCat];
+  document.getElementById('wordGrid').innerHTML = cat.words.map(w => {
+    const used = selected.find(s => s.w === w.w);
+    return `<span class="word-chip${used?' used':''}" style="background:${cat.color};color:${cat.tc};border-color:${cat.bc}" onmouseenter="showDef('${esc(w.w)}','${esc(w.d)}','${esc(w.ex||'')}',${activeCat})" onmouseleave="clearDef()" onclick="${used?'':'addWord(\''+esc(w.w)+'\','+activeCat+')'}">${w.w}</span>`;
   }).join('');
 }
 
-function renderConstructChips(){
-  const el=document.getElementById('constructChips');
-  const cur=document.getElementById('constructSel').value;
-  el.innerHTML=constructions.map(c=>`<span class="construct-chip${c.v===cur?' sel':''}" onclick="selectConstruct('${c.v}')">${c.t}</span>`).join('');
+function esc(s){ return s.replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+function showDef(w, d, ex, ci) {
+  const cat = cats[ci];
+  document.getElementById('defBox').innerHTML =
+    `<strong style="color:${cat.tc}">${w}</strong> — ${d}${ex ? '<br><span style="color:var(--text-faint);font-style:italic;font-size:12px">'+ex+'</span>' : ''}`;
+}
+function clearDef() {
+  document.getElementById('defBox').textContent = 'Hover over a word to see its definition and example.';
 }
 
-function selectCat(i){activeCat=i;renderCatTabs();renderWords();}
-
-function showDef(w,d,ci){
-  document.getElementById('defBox').innerHTML=`<strong style="color:${cats[ci].tc}">${w}</strong> — ${d}`;
-}
-function clearDef(){document.getElementById('defBox').textContent='Hover over a word to see its definition.';}
-
-function addWord(w,ci){
-  if(selected.find(s=>s.w===w))return;
-  selected.push({w,ci});
+function addWord(w, ci) {
+  if (selected.find(s => s.w === w)) return;
+  selected.push({ w, ci });
   updateProfile();
   renderWords();
 }
 
-function removeWord(w){
-  selected=selected.filter(s=>s.w!==w);
+function removeWord(w) {
+  selected = selected.filter(s => s.w !== w);
   updateProfile();
   renderWords();
 }
 
-function clearAll(){
-  selected=[];
-  document.getElementById('partnerName').value='';
+function clearAll() {
+  selected = [];
+  document.getElementById('partnerName').value = '';
   document.getElementById('profilePara').classList.remove('show');
   updateProfile();
   renderWords();
 }
 
-function updateProfile(){
-  const name=document.getElementById('partnerName').value||'my ideal partner';
-  document.getElementById('profileTitle').textContent=name;
-  const P=getPronouns();
-  const tagEl=document.getElementById('tagDisplay');
-  if(!selected.length){
-    tagEl.innerHTML='<span style="font-size:12px;color:var(--color-text-secondary);font-style:italic">Pick words from the bank below...</span>';
+function selectCat(i) { activeCat = i; renderCatTabs(); renderWords(); }
+
+function renderConstructChips() {
+  document.getElementById('constructChips').innerHTML = constructions.map(c =>
+    `<span class="construct-chip${c.v===activeConstruct?' sel':''}" onclick="selectConstruct('${c.v}')">${c.label}</span>`
+  ).join('');
+}
+
+function selectConstruct(v) {
+  activeConstruct = v;
+  renderConstructChips();
+  updateSentence();
+}
+
+function updateProfile() {
+  const name = document.getElementById('partnerName').value || 'my ideal partner';
+  document.getElementById('profileName').textContent = name;
+  const P = getP();
+  const tagEl = document.getElementById('tagArea');
+  if (!selected.length) {
+    tagEl.innerHTML = '<span class="empty-hint">Click words in the vocabulary bank below...</span>';
   } else {
-    tagEl.innerHTML=selected.map(s=>{
-      const cat=cats[s.ci];
-      return `<span class="tag" style="background:${cat.color};color:${cat.tc};border:0.5px solid ${cat.bc}">${s.w} <button onclick="removeWord('${s.w.replace(/'/g,"\\'")}')">×</button></span>`;
+    tagEl.innerHTML = selected.map(s => {
+      const cat = cats[s.ci];
+      return `<span class="tag" style="background:${cat.color};color:${cat.tc};border:1px solid ${cat.bc}">${s.w}<button onclick="removeWord('${esc(s.w)}')">×</button></span>`;
     }).join('');
   }
-  document.getElementById('tagCount').textContent=selected.length+' trait'+(selected.length===1?'':'s')+' added';
+  document.getElementById('traitCount').textContent = selected.length + ' trait' + (selected.length===1?'':'s') + ' added';
   updateSentence();
 }
 
-function selectConstruct(v){
-  document.getElementById('constructSel').value=v;
-  renderConstructChips();
-  updateSentence();
+function updateSentence() {
+  const name = document.getElementById('partnerName').value || 'they';
+  const P = getP();
+  const traits = selected.map(s => s.w);
+  const t = traits.slice(0,3).join(', ') || '...';
+  const v = activeConstruct;
+  let s = '';
+  if (v==='is')       s = `${P.sub} is ${t}.`;
+  else if (v==='has') s = `${P.sub} has a ${traits[0]||'...'} personality${traits[1] ? ' and a '+traits[1]+' spirit' : ''}.`;
+  else if (v==='tends') s = `${P.sub} tends to be ${t}.`;
+  else if (v==='kind') s = `${P.sub} is the kind of person who is ${t}.`;
+  else if (v==='love') s = `One thing I love about ${name} is that ${P.ref} is so ${traits[0]||'...'}.`;
+  else if (v==='important') s = `What's important to me is that ${P.ref} is ${t}.`;
+  else if (v==='like') s = `I'd like someone who is ${t}.`;
+  document.getElementById('sentencePreview').textContent = s;
 }
 
-function updateSentence(){
-  renderConstructChips();
-  const v=document.getElementById('constructSel').value;
-  const name=document.getElementById('partnerName').value||'they';
-  const P=getPronouns();
-  const pr=P[0];
-  const traits=selected.map(s=>s.w);
-  if(!traits.length){document.getElementById('sentenceBox').textContent='Choose a grammar construction above, then add words.';return;}
-  const t=traits.slice(0,3).join(', ');
-  let sentence='';
-  if(v==='is') sentence=`${pr} is ${t}.`;
-  else if(v==='has') sentence=`${pr} has a ${traits[0]||'...'} personality.`;
-  else if(v==='tends') sentence=`${pr} tends to be ${t}.`;
-  else if(v==='kind') sentence=`${pr} is the kind of person who is ${t}.`;
-  else if(v==='love') sentence=`One thing I love about ${name} is that ${P[2]} is so ${traits[0]||'...'}.`;
-  else if(v==='important') sentence=`What's important to me is that ${P[2]} is ${t}.`;
-  else if(v==='never') sentence=`${pr} is never boring — ${P[2]}'s ${traits[0]||'...'} and ${traits[1]||'interesting'}.`;
-  document.getElementById('sentenceBox').textContent=sentence;
-}
-
-function revealProfile(){
-  const name=document.getElementById('partnerName').value||'my ideal partner';
-  const P=getPronouns();
-  const pr=P[0];const prp=P[1];const probj=P[3];
-  const bycat=[0,1,2,3,4].map(i=>selected.filter(s=>s.ci===i).map(s=>s.w));
-  let para='';
-  if(bycat[0].length) para+=`${pr} is ${bycat[0].join(' and ')}. `;
-  if(bycat[1].length) para+=`${prp} personality is ${bycat[1].join(', ')} — the kind of person you immediately enjoy being around. `;
-  if(bycat[2].length) para+=`Emotionally, ${P[2]} is ${bycat[2].join(' and ')}, which means ${P[2]} handles feelings with care. `;
-  if(bycat[3].length) para+=`Intellectually, ${P[2]}'s ${bycat[3].join(' and ')} — conversations with ${probj} never feel dull. `;
-  if(bycat[4].length) para+=`In terms of lifestyle, ${P[2]} is ${bycat[4].join(' and ')}. `;
-  if(!para) para='Add some traits first to reveal the full profile!';
-  const el=document.getElementById('profilePara');
-  el.textContent=para;
+function revealProfile() {
+  const name = document.getElementById('partnerName').value || 'my ideal partner';
+  const P = getP();
+  const bycat = cats.map((_,i) => selected.filter(s => s.ci===i).map(s => s.w));
+  let para = '';
+  if (bycat[0].length) para += `${P.sub} is ${bycat[0].join(' and ')}. `;
+  if (bycat[1].length) para += `${P.pos} personality is ${bycat[1].join(', ')} — the kind of person you enjoy being around from the very first conversation. `;
+  if (bycat[2].length) para += `Emotionally, ${P.ref} is ${bycat[2].join(' and ')}, which means ${P.ref} handles feelings with real care. `;
+  if (bycat[3].length) para += `Intellectually, ${P.ref}'s ${bycat[3].join(' and ')} — conversations with ${P.obj} are never dull. `;
+  if (bycat[4].length) para += `In terms of lifestyle, ${P.ref} is ${bycat[4].join(' and ')}.`;
+  if (!para) para = 'Add some traits first to reveal the full profile!';
+  const el = document.getElementById('profilePara');
+  el.textContent = para;
   el.classList.add('show');
 }
 
@@ -312,3 +769,5 @@ renderConstructChips();
 updateProfile();
 setGender('f');
 </script>
+</body>
+</html>
