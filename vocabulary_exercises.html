@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabulary Exercises — Advanced English</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap');
+
+  :root {
+    --ink: #1a1a2e;
+    --muted: #5a5a72;
+    --line: #d4d4e0;
+    --accent: #2d6a4f;
+    --accent-light: #eaf3ee;
+    --warn: #7a3b00;
+    --warn-light: #fdf3e7;
+    --page: #faf9f6;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--page);
+    padding: 40px 24px 80px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .doc-header {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--line);
+    padding: 24px 0 20px;
+    margin-bottom: 48px;
+  }
+  .doc-header h1 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .doc-header .subtitle {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Section blocks */
+  .exercise {
+    margin-bottom: 56px;
+  }
+
+  .exercise-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .exercise h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 19px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .exercise .instructions {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    font-style: italic;
+    border-left: 3px solid var(--line);
+    padding-left: 12px;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  thead tr {
+    background: var(--ink);
+    color: var(--white);
+  }
+
+  thead th {
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  tbody tr:nth-child(even) {
+    background: var(--white);
+  }
+  tbody tr:nth-child(odd) {
+    background: var(--page);
+  }
+
+  tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  td.root {
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  td.form {
+    color: var(--accent);
+    font-style: italic;
+    font-size: 13px;
+  }
+
+  td.meaning {
+    color: var(--ink);
+    font-size: 13.5px;
+    line-height: 1.5;
+  }
+
+  td.blank {
+    color: var(--line);
+    font-style: italic;
+    font-size: 12px;
+  }
+
+  /* Reference box */
+  .ref-box {
+    background: var(--accent-light);
+    border: 1px solid #a8d5be;
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+  }
+
+  .ref-box .ref-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .ref-box table {
+    font-size: 13.5px;
+    margin-bottom: 0;
+  }
+
+  .ref-box thead tr {
+    background: var(--accent);
+  }
+
+  .ref-box tbody tr:nth-child(even) { background: rgba(255,255,255,0.6); }
+  .ref-box tbody tr:nth-child(odd)  { background: rgba(255,255,255,0.3); }
+
+  /* Preposition box */
+  .prep-box {
+    background: var(--warn-light);
+    border: 1px solid #e8c99a;
+    border-radius: 6px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+  }
+
+  .prep-box .ref-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--warn);
+    margin-bottom: 12px;
+  }
+
+  .prep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 6px 24px;
+  }
+
+  .prep-item {
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+
+  .prep-item .phrase {
+    font-style: italic;
+    color: var(--warn);
+    font-weight: 600;
+  }
+
+  .prep-item .gloss {
+    color: var(--muted);
+    font-size: 12.5px;
+  }
+
+  /* Numbered exercises */
+  .task-list {
+    list-style: none;
+    counter-reset: task;
+  }
+
+  .task-list li {
+    counter-increment: task;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 4px 8px;
+    margin-bottom: 18px;
+    align-items: start;
+  }
+
+  .task-list li::before {
+    content: counter(task) ".";
+    font-family: 'Libre Baskerville', serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--muted);
+    padding-top: 1px;
+  }
+
+  .task-list .sentence {
+    font-size: 14.5px;
+    line-height: 1.65;
+  }
+
+  .task-list .sentence em {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .task-list .answer-row {
+    grid-column: 2;
+    display: flex;
+    gap: 16px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  .choice input[type="radio"] {
+    accent-color: var(--accent);
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Gap fill lines */
+  .gap {
+    display: inline-block;
+    border-bottom: 1.5px solid var(--ink);
+    min-width: 90px;
+    height: 1.1em;
+    vertical-align: bottom;
+    margin: 0 3px;
+  }
+
+  .gap-sm {
+    min-width: 50px;
+  }
+
+  /* Writing prompt box */
+  .prompt-box {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+
+  .prompt-box .scenario-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .prompt-box p {
+    font-size: 14.5px;
+    line-height: 1.7;
+  }
+
+  .checklist {
+    list-style: none;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .checklist li {
+    font-size: 13.5px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    color: var(--muted);
+  }
+
+  .checklist li::before {
+    content: "□";
+    font-size: 15px;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .checklist li strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Writing lines */
+  .write-lines {
+    margin-top: 16px;
+  }
+
+  .write-line {
+    border-bottom: 1px solid var(--line);
+    height: 32px;
+    margin-bottom: 2px;
+  }
+
+  /* Divider */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 48px 0;
+  }
+
+  /* Note */
+  .note {
+    font-size: 12.5px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 10px;
+  }
+
+  @media print {
+    body { background: white; padding: 20px; }
+    .exercise { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="subtitle">Advanced Vocabulary · B2–C1 · Online Lesson</div>
+  <h1>Working Words: Communication, Conflict &amp; Character</h1>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     EXERCISE 1 — WORD FAMILY TABLE
+════════════════════════════════════════════════ -->
+
+<div class="exercise">
+  <div class="exercise-label">Exercise 1</div>
+  <h2>Word Families</h2>
+  <p class="instructions">Study the table below. Notice which forms exist and which don't — not every root has all four forms. Pay attention to the meaning column before moving on.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Root / Verb</th>
+        <th>Noun</th>
+        <th>Adjective</th>
+        <th>Adverb</th>
+        <th>Core meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="root">acquit</td>
+        <td class="form">acquittal</td>
+        <td class="form">acquitted</td>
+        <td class="blank">—</td>
+        <td class="meaning">To formally declare someone not guilty of a crime</td>
+      </tr>
+      <tr>
+        <td class="root">brazen</td>
+        <td class="blank">—</td>
+        <td class="form">brazen</td>
+        <td class="form">brazenly</td>
+        <td class="meaning">Bold in a shocking or shameless way; showing no guilt</td>
+      </tr>
+      <tr>
+        <td class="root">decorum</td>
+        <td class="form">decorum</td>
+        <td class="form">decorous</td>
+        <td class="form">decorously</td>
+        <td class="meaning">Behaviour that is correct and appropriate for the situation</td>
+      </tr>
+      <tr>
+        <td class="root">eccentric</td>
+        <td class="form">eccentricity</td>
+        <td class="form">eccentric</td>
+        <td class="form">eccentrically</td>
+        <td class="meaning">Unusual or unconventional in behaviour; odd in a distinctive way</td>
+      </tr>
+      <tr>
+        <td class="root">felicitous</td>
+        <td class="form">felicity</td>
+        <td class="form">felicitous</td>
+        <td class="form">felicitously</td>
+        <td class="meaning">Well-chosen and pleasing; apt and fortunate (formal / literary)</td>
+      </tr>
+      <tr>
+        <td class="root">maneuver / manoeuvre</td>
+        <td class="form">maneuver</td>
+        <td class="form">maneuverable</td>
+        <td class="blank">—</td>
+        <td class="meaning">To move or guide skilfully, often through a complex situation</td>
+      </tr>
+      <tr>
+        <td class="root">premonition</td>
+        <td class="form">premonition</td>
+        <td class="form">premonitory</td>
+        <td class="blank">—</td>
+        <td class="meaning">A strong feeling that something (usually bad) is about to happen</td>
+      </tr>
+      <tr>
+        <td class="root">inexorable</td>
+        <td class="form">inexorability</td>
+        <td class="form">inexorable</td>
+        <td class="form">inexorably</td>
+        <td class="meaning">Impossible to stop or prevent; relentlessly continuing</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="note">💡 Notice: <em>brazenly</em> and <em>inexorably</em> are sentence adverbials — they colour the entire action, not just the verb. <em>Felicitous</em> and <em>decorous</em> are formal/literary register; you're unlikely to hear them in casual speech.</p>
+</div>
+
+<hr class="divider">
+
+
+<!-- ═══════════════════════════════════════════════
+     EXERCISE 2 — COLLOCATIONS + SAME OR DIFFERENT?
+════════════════════════════════════════════════ -->
+
+<div class="exercise">
+  <div class="exercise-label">Exercise 2</div>
+  <h2>Collocations: Same or Different?</h2>
+  <p class="instructions">First, study the reference table. Then read each pair of sentences (A and B). They use the same collocation — but is it used correctly in both, only one, or neither? Choose your answer and be ready to explain why.</p>
+
+  <div class="ref-box">
+    <div class="ref-title">Collocation Reference</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Collocation</th>
+          <th>Meaning</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="form">strengthen bonds</td>
+          <td class="meaning">to make relationships or connections deeper and more solid</td>
+          <td class="meaning"><em>Regular team lunches help strengthen bonds between colleagues.</em></td>
+        </tr>
+        <tr>
+          <td class="form">exacerbate divisions</td>
+          <td class="meaning">to make existing disagreements or splits worse</td>
+          <td class="meaning"><em>The new policy only exacerbated divisions within the group.</em></td>
+        </tr>
+        <tr>
+          <td class="form">engender distrust</td>
+          <td class="meaning">to cause or produce a feeling of distrust (formal)</td>
+          <td class="meaning"><em>His evasive answers engendered distrust among the committee.</em></td>
+        </tr>
+        <tr>
+          <td class="form">aggravate the problem</td>
+          <td class="meaning">to make a problem more serious or severe</td>
+          <td class="meaning"><em>Ignoring complaints will only aggravate the problem.</em></td>
+        </tr>
+        <tr>
+          <td class="form">ease stress levels</td>
+          <td class="meaning">to reduce or relieve stress gradually</td>
+          <td class="meaning"><em>Short breaks during the day can ease stress levels considerably.</em></td>
+        </tr>
+        <tr>
+          <td class="form">boost morale</td>
+          <td class="meaning">to increase people's confidence, enthusiasm, or sense of purpose</td>
+          <td class="meaning"><em>Public recognition of good work boosts morale across the whole team.</em></td>
+        </tr>
+        <tr>
+          <td class="form">alleviate boredom</td>
+          <td class="meaning">to partially reduce or relieve feelings of boredom</td>
+          <td class="meaning"><em>She rearranged her desk to alleviate the boredom of the long afternoon.</em></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul class="task-list">
+
+    <li>
+      <div class="sentence">
+        <strong>strengthen bonds</strong><br>
+        A. The new shared project was intended to <em>strengthen bonds</em> between the two departments that had long worked in isolation.<br>
+        B. After the argument, she sent flowers hoping it would <em>strengthen the bond</em> she had broken with her colleague.
+      </div>
+      <div class="answer-row">
+        <label class="choice"><input type="radio" name="q1" value="both"> Both correct</label>
+        <label class="choice"><input type="radio" name="q1" value="a"> Only A correct</label>
+        <label class="choice"><input type="radio" name="q1" value="b"> Only B correct</label>
+        <label class="choice"><input type="radio" name="q1" value="neither"> Neither correct</label>
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        <strong>exacerbate divisions</strong><br>
+        A. The manager's favouritism <em>exacerbated divisions</em> in a team that was already struggling to communicate.<br>
+        B. The mediator's calm approach managed to <em>exacerbate the divisions</em> and bring both sides closer.
+      </div>
+      <div class="answer-row">
+        <label class="choice"><input type="radio" name="q2" value="both"> Both correct</label>
+        <label class="choice"><input type="radio" name="q2" value="a"> Only A correct</label>
+        <label class="choice"><input type="radio" name="q2" value="b"> Only B correct</label>
+        <label class="choice"><input type="radio" name="q2" value="neither"> Neither correct</label>
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        <strong>engender distrust</strong><br>
+        A. Transparency in decision-making is crucial — secrecy will inevitably <em>engender distrust</em>.<br>
+        B. The warm welcome and open communication began to <em>engender distrust</em> among the new staff members.
+      </div>
+      <div class="answer-row">
+        <label class="choice"><input type="radio" name="q3" value="both"> Both correct</label>
+        <label class="choice"><input type="radio" name="q3" value="a"> Only A correct</label>
+        <label class="choice"><input type="radio" name="q3" value="b"> Only B correct</label>
+        <label class="choice"><input type="radio" name="q3" value="neither"> Neither correct</label>
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        <strong>aggravate the problem</strong><br>
+        A. Sending a passive-aggressive email at midnight will only <em>aggravate the problem</em> rather than resolve it.<br>
+        B. The technician's quick fix <em>aggravated the problem</em> and the system was fully restored within minutes.
+      </div>
+      <div class="answer-row">
+        <label class="choice"><input type="radio" name="q4" value="both"> Both correct</label>
+        <label class="choice"><input type="radio" name="q4" value="a"> Only A correct</label>
+        <label class="choice"><input type="radio" name="q4" value="b"> Only B correct</label>
+        <label class="choice"><input type="radio" name="q4" value="neither"> Neither correct</label>
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        <strong>ease stress levels</strong><br>
+        A. The company introduced meditation sessions to <em>ease stress levels</em> during the restructuring period.<br>
+        B. Doubling the workload during peak season is a proven way to <em>ease stress levels</em> among employees.
+      </div>
+      <div class="answer-row">
+        <label class="choice"><input type="radio" name="q5" value="both"> Both correct</label>
+        <label class="choice"><input type="radio" name="q5" value="a"> Only A correct</label>
+        <label class="choice"><input type="radio" name="q5" value="b"> Only B correct</label>
+        <label class="choice"><input type="radio" name="q5" value="neither"> Neither correct</label>
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        <strong>boost morale</strong><br>
+        A. A handwritten thank-you note from the director did more to <em>boost morale</em> than any of the formal appraisal meetings.<br>
+        B. The sudden announcement of layoffs was intended to <em>boost morale</em> and motivate the remaining staff.
+      </div>
+      <div class="answer-row">
+        <label class="choice"><input type="radio" name="q6" value="both"> Both correct</label>
+        <label class="choice"><input type="radio" name="q6" value="a"> Only A correct</label>
+        <label class="choice"><input type="radio" name="q6" value="b"> Only B correct</label>
+        <label class="choice"><input type="radio" name="q6" value="neither"> Neither correct</label>
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        <strong>alleviate boredom</strong><br>
+        A. She started a podcast during lockdown purely to <em>alleviate the boredom</em> of empty evenings at home.<br>
+        B. The repetitive, unchallenging tasks did nothing to <em>alleviate boredom</em> — they made it considerably worse.
+      </div>
+      <div class="answer-row">
+        <label class="choice"><input type="radio" name="q7" value="both"> Both correct</label>
+        <label class="choice"><input type="radio" name="q7" value="a"> Only A correct</label>
+        <label class="choice"><input type="radio" name="q7" value="b"> Only B correct</label>
+        <label class="choice"><input type="radio" name="q7" value="neither"> Neither correct</label>
+      </div>
+    </li>
+
+  </ul>
+
+  <p class="note">💡 Discussion prompt: For any pair where you chose "only A" or "only B" — what exactly is wrong with the other sentence? Is it the meaning of the verb, the logic of the context, or the connotation?</p>
+</div>
+
+<hr class="divider">
+
+
+<!-- ═══════════════════════════════════════════════
+     EXERCISE 3 — PREPOSITION BOX + GAP FILL
+════════════════════════════════════════════════ -->
+
+<div class="exercise">
+  <div class="exercise-label">Exercise 3</div>
+  <h2>Word + Preposition Gap Fill</h2>
+  <p class="instructions">Study the reference box, then complete each sentence with the correct word from Exercise 1 AND the correct preposition. Two blanks per sentence: one for the word, one for the preposition. Use each word once.</p>
+
+  <div class="prep-box">
+    <div class="ref-title">Preposition Reference</div>
+    <div class="prep-grid">
+      <div class="prep-item">
+        <span class="phrase">acquitted of</span><br>
+        <span class="gloss">She was acquitted <em>of</em> all charges.</span>
+      </div>
+      <div class="prep-item">
+        <span class="phrase">a premonition of / about</span><br>
+        <span class="gloss">He had a premonition <em>of</em> disaster / <em>about</em> the journey.</span>
+      </div>
+      <div class="prep-item">
+        <span class="phrase">maneuver into / through / around</span><br>
+        <span class="gloss">She maneuvered <em>through</em> the crowd / <em>into</em> position.</span>
+      </div>
+      <div class="prep-item">
+        <span class="phrase">act with decorum</span><br>
+        <span class="gloss">Always act <em>with</em> decorum in formal settings.</span>
+      </div>
+      <div class="prep-item">
+        <span class="phrase">inexorably toward / towards</span><br>
+        <span class="gloss">Events moved inexorably <em>toward</em> a confrontation.</span>
+      </div>
+      <div class="prep-item">
+        <span class="phrase">eccentric in</span><br>
+        <span class="gloss">He was eccentric <em>in</em> his habits and dress.</span>
+      </div>
+      <div class="prep-item">
+        <span class="phrase">felicitous in / for</span><br>
+        <span class="gloss">A felicitous turn <em>of</em> phrase / felicitous <em>in</em> his choice of words.</span>
+      </div>
+      <div class="prep-item">
+        <span class="phrase">brazenly (no preposition)</span><br>
+        <span class="gloss">She brazenly ignored the rules. (verb follows directly)</span>
+      </div>
+    </div>
+  </div>
+
+  <ul class="task-list">
+
+    <li>
+      <div class="sentence">
+        Despite overwhelming public opinion against her, the defendant was <span class="gap"></span> <span class="gap gap-sm"></span> every count due to lack of evidence.
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        She had a strange <span class="gap"></span> <span class="gap gap-sm"></span> something going wrong that evening — a feeling she couldn't quite explain.
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        The skilled diplomat <span class="gap"></span> the two rival delegations <span class="gap gap-sm"></span> a fragile compromise that satisfied neither side fully but prevented a breakdown.
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        The late professor was <span class="gap"></span> <span class="gap gap-sm"></span> his methods — he graded papers in green ink and held office hours at midnight.
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        The situation moved <span class="gap"></span> <span class="gap gap-sm"></span> a full-scale crisis; every attempt to intervene seemed to arrive too late.
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        He <span class="gap"></span> ignored the dress code, arriving at the formal reception in shorts and a t-shirt.
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        Even in moments of sharp disagreement, the chair managed to conduct the meeting <span class="gap gap-sm"></span> <span class="gap"></span>, never allowing voices to be raised.
+      </div>
+    </li>
+
+    <li>
+      <div class="sentence">
+        The speech was considered particularly <span class="gap"></span> <span class="gap gap-sm"></span> its use of imagery — every metaphor felt natural and precisely right.
+      </div>
+    </li>
+
+  </ul>
+</div>
+
+<hr class="divider">
+
+
+<!-- ═══════════════════════════════════════════════
+     EXERCISE 4 — CONTEXTUAL WRITING TASK
+════════════════════════════════════════════════ -->
+
+<div class="exercise">
+  <div class="exercise-label">Exercise 4</div>
+  <h2>Writing Task: No Notes Allowed</h2>
+  <p class="instructions">Read the scenario. Write 120–180 words responding to it. Use at least <strong>5 of the 8 single words</strong> from Exercise 1 and at least <strong>3 of the 7 collocations</strong> from Exercise 2. No reference materials — work from memory.</p>
+
+  <div class="prompt-box">
+    <div class="scenario-label">Scenario</div>
+    <p>
+      It is the third hour of a mandatory all-staff video call. The connection has been unstable all morning. One participant — a senior figure known for unconventional behaviour — has been speaking over others, ignoring the agenda, and at one point seemed to be having a separate phone conversation. The meeting organiser is struggling to maintain control. You are observing and later write a short account of what happened and how different people responded.
+    </p>
+    <ul class="checklist">
+      <li>Use at least <strong>5 of the 8 single words</strong> (acquitted, brazenly, decorum, eccentric, felicitous, inexorably, maneuvered, premonition)</li>
+      <li>Use at least <strong>3 of the 7 collocations</strong> (strengthen bonds, exacerbate divisions, engender distrust, aggravate the problem, ease stress levels, boost morale, alleviate boredom)</li>
+      <li>Write in the <strong>past tense</strong> — this is a retrospective account</li>
+      <li>Aim for <strong>120–180 words</strong></li>
+    </ul>
+  </div>
+
+  <div class="write-lines">
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+    <div class="write-line"></div>
+  </div>
+
+  <p class="note">💡 After writing, swap with a partner (or share your screen) and check: did every word feel natural in context, or does any use feel forced? That instinct — noticing when a word feels "bolted on" — is exactly what distinguishes B2 from C1.</p>
+</div>
+
+</body>
+</html>
