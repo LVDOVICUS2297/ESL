@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Three-Body Problem — Chapters 20 & 21 | C1 ESL Lesson</title>
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --surface2: #1e1e24;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e8e6e0;
+    --muted: #8a8880;
+    --dim: #5a5856;
+    --accent: #c8b8f0;
+    --accent-bg: rgba(200,184,240,0.08);
+    --accent-border: rgba(200,184,240,0.25);
+    --gold: #d4a843;
+    --gold-bg: rgba(212,168,67,0.08);
+    --teal: #5abfa8;
+    --teal-bg: rgba(90,191,168,0.08);
+    --coral: #e07a5f;
+    --coral-bg: rgba(224,122,95,0.08);
+    --blue: #6ea8d8;
+    --blue-bg: rgba(110,168,216,0.08);
+    --r: 8px;
+    --rl: 12px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* HERO */
+  .hero {
+    border-bottom: 1px solid var(--border);
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(200,184,240,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+  }
+  .hero-title {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: normal;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    font-style: italic;
+  }
+  .hero-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 20px;
+    padding: 4px 14px;
+  }
+
+  /* TIMELINE */
+  .timeline-wrap {
+    padding: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tl-label {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .tl-bar {
+    display: flex;
+    gap: 3px;
+    height: 5px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.6rem;
+  }
+  .tl-legend {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .tl-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Courier New', monospace;
+  }
+  .tl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  /* LAYOUT */
+  .container { max-width: 820px; margin: 0 auto; padding: 0 2rem; }
+
+  /* PHASE BLOCKS */
+  .phase {
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 2rem;
+  }
+  .phase-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .phase-tag {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+  .phase-title {
+    font-size: 22px;
+    font-weight: normal;
+    color: #fff;
+    flex: 1;
+  }
+  .phase-time {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--dim);
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin: 1.5rem 0 0.6rem;
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  /* PROMPT BOX */
+  .prompt-box {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--rl);
+    padding: 1rem 1.25rem;
+    margin: 0.6rem 0;
+  }
+  .prompt-text {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.65;
+  }
+  .prompt-note {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.4rem;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* QUOTE BLOCK */
+  .quote-block {
+    background: var(--accent-bg);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--r) var(--r) 0;
+    padding: 0.7rem 1rem;
+    margin: 0.75rem 0 0;
+  }
+  .quote-context {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    margin-bottom: 4px;
+  }
+  .quote-text {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  /* Q CARDS */
+  .q-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--rl);
+    margin: 0.75rem 0;
+    overflow: hidden;
+  }
+  .q-top { padding: 1rem 1.25rem; }
+  .q-num {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .q-text {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .toggle-btn {
+    width: 100%;
+    padding: 0.55rem 1.25rem;
+    background: var(--surface2);
+    border: none;
+    border-top: 0.5px solid var(--border);
+    text-align: left;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s;
+  }
+  .toggle-btn:hover { background: rgba(200,184,240,0.06); color: var(--accent); }
+  .answer-body {
+    display: none;
+    padding: 1rem 1.25rem;
+    border-top: 0.5px solid var(--border);
+    background: rgba(200,184,240,0.03);
+  }
+  .answer-body.open { display: block; }
+  .answer-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+  .follow-up {
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    border-top: 0.5px solid var(--border);
+    font-family: 'Courier New', monospace;
+  }
+
+  /* VOCAB GRID */
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 8px;
+    margin: 0.6rem 0;
+  }
+  .vocab-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--r);
+    padding: 0.75rem 1rem;
+  }
+  .vocab-word {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--accent);
+    font-family: 'Courier New', monospace;
+  }
+  .vocab-pos {
+    font-size: 11px;
+    color: var(--dim);
+    font-style: italic;
+    margin-left: 4px;
+  }
+  .vocab-def {
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 3px;
+    line-height: 1.5;
+  }
+  .vocab-ex {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* EXERCISE */
+  .exercise-box {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--rl);
+    overflow: hidden;
+    margin: 0.75rem 0;
+  }
+  .ex-title {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    padding: 0.65rem 1.25rem;
+    border-bottom: 0.5px solid var(--border);
+    background: var(--surface2);
+    text-transform: uppercase;
+  }
+  .ex-item {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0.6rem 1.25rem;
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+  }
+  .ex-item:last-child { border-bottom: none; }
+  .ex-q { flex: 1; }
+  .ex-toggle {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    background: none;
+    border: 0.5px solid var(--border2);
+    border-radius: 4px;
+    padding: 2px 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+  .ex-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .ex-ans { color: var(--accent); display: none; font-style: italic; }
+  .ex-ans.open { display: inline; }
+
+  /* DISCUSSION THREAD */
+  .thread {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: var(--rl);
+    margin: 0.75rem 0;
+    overflow: hidden;
+  }
+  .thread-header {
+    padding: 0.8rem 1.25rem;
+    background: var(--surface2);
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    user-select: none;
+  }
+  .thread-header:hover { background: rgba(200,184,240,0.05); }
+  .thread-label {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .thread-title {
+    font-size: 14px;
+    color: var(--text);
+    flex: 1;
+  }
+  .thread-chev {
+    font-size: 12px;
+    color: var(--dim);
+    transition: transform 0.2s;
+  }
+  .thread-chev.open { transform: rotate(180deg); }
+  .thread-body { display: none; padding: 1rem 1.25rem; }
+  .thread-body.open { display: block; }
+  .dq {
+    border-left: 2px solid var(--border2);
+    padding: 0.5rem 0 0.5rem 1rem;
+    margin: 0.5rem 0;
+  }
+  .dq-text { font-size: 14px; color: var(--text); line-height: 1.6; }
+  .dq-note { font-size: 12px; color: var(--muted); font-style: italic; margin-top: 3px; font-family: 'Courier New', monospace; }
+
+  /* TEACHER NOTE */
+  .teacher-note {
+    background: var(--gold-bg);
+    border: 0.5px solid rgba(212,168,67,0.2);
+    border-radius: var(--r);
+    padding: 0.75rem 1rem;
+    margin: 0.6rem 0;
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+  }
+  .teacher-note strong { color: var(--gold); font-weight: normal; }
+
+  /* LANG FOCUS */
+  .lang-item {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0.5rem 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .lang-item:last-child { border-bottom: none; }
+  .lang-item em { color: var(--accent); font-style: italic; }
+
+  /* TAGS */
+  .tag-warm { background: rgba(90,191,168,0.12); color: var(--teal); border: 0.5px solid rgba(90,191,168,0.25); }
+  .tag-vocab { background: var(--accent-bg); color: var(--accent); border: 0.5px solid var(--accent-border); }
+  .tag-comp { background: var(--blue-bg); color: var(--blue); border: 0.5px solid rgba(110,168,216,0.25); }
+  .tag-speak { background: var(--gold-bg); color: var(--gold); border: 0.5px solid rgba(212,168,67,0.25); }
+  .tag-close { background: var(--coral-bg); color: var(--coral); border: 0.5px solid rgba(224,122,95,0.25); }
+
+  /* FOOTER */
+  .footer {
+    padding: 2rem;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--border);
+  }
+
+  @media(max-width:600px) {
+    .hero { padding: 2.5rem 1.25rem 2rem; }
+    .phase { padding: 2rem 1.25rem; }
+    .timeline-wrap { padding: 1.5rem 1.25rem; }
+    .container { padding: 0 1.25rem; }
+    .hero-meta { gap: 0.75rem; }
+    .vocab-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-eyebrow">C1 ESL · Online · 50 minutes</div>
+  <h1 class="hero-title"><em>The Three-Body Problem</em><br>Chapters 20 & 21</h1>
+  <p class="hero-sub">Expedition · Rebels of Earth</p>
+  <div class="hero-meta">
+    <span class="meta-pill">Liu Cixin</span>
+    <span class="meta-pill">1 student · adult</span>
+    <span class="meta-pill">Speaking + vocabulary</span>
+    <span class="meta-pill">First sci-fi read</span>
+  </div>
+</div>
+
+<div class="timeline-wrap">
+  <div class="tl-label">Lesson arc — 50 minutes</div>
+  <div class="tl-bar">
+    <div style="background:#5abfa8;flex:1"></div>
+    <div style="background:#c8b8f0;flex:2"></div>
+    <div style="background:#6ea8d8;flex:1.5"></div>
+    <div style="background:#d4a843;flex:4"></div>
+    <div style="background:#e07a5f;flex:1"></div>
+  </div>
+  <div class="tl-legend">
+    <div class="tl-item"><div class="tl-dot" style="background:#5abfa8"></div>Warm-up · 5 min</div>
+    <div class="tl-item"><div class="tl-dot" style="background:#c8b8f0"></div>Vocabulary · 10 min</div>
+    <div class="tl-item"><div class="tl-dot" style="background:#6ea8d8"></div>Comprehension · 8 min</div>
+    <div class="tl-item"><div class="tl-dot" style="background:#d4a843"></div>Discussion · 22 min</div>
+    <div class="tl-item"><div class="tl-dot" style="background:#e07a5f"></div>Close · 5 min</div>
+  </div>
+</div>
+
+<!-- WARM UP -->
+<div class="phase">
+  <div class="container">
+    <div class="phase-header">
+      <span class="phase-tag tag-warm">Warm-up</span>
+      <span class="phase-title">Entry ticket</span>
+      <span class="phase-time">5 min</span>
+    </div>
+    <div class="prompt-box">
+      <div class="prompt-text">You finished two chapters — give me <strong>one word</strong> for how you felt at the end of chapter 21. Just one word, then tell me why.</div>
+      <div class="prompt-note">If she says "interesting" → push: Interesting how? Surprising? Disturbing? Frightening? Force precision.</div>
+    </div>
+    <div class="teacher-note"><strong>Note:</strong> The one-word constraint reins in a talkative student from the very first minute. Hold the constraint even if she resists it.</div>
+  </div>
+</div>
+
+<!-- VOCABULARY -->
+<div class="phase">
+  <div class="container">
+    <div class="phase-header">
+      <span class="phase-tag tag-vocab">Vocabulary</span>
+      <span class="phase-title">8 words from the text</span>
+      <span class="phase-time">10 min</span>
+    </div>
+
+    <div class="section-label">Target words</div>
+    <div class="vocab-grid">
+      <div class="vocab-card"><div class="vocab-word">synchronous <span class="vocab-pos">adj</span></div><div class="vocab-def">happening at the same time or rate</div><div class="vocab-ex">"stars in synchronous orbit" — all moving as one</div></div>
+      <div class="vocab-card"><div class="vocab-word">solemn <span class="vocab-pos">adj</span></div><div class="vocab-def">serious, grave, full of weight</div><div class="vocab-ex">"solemn power" of the fleet gliding across the sky</div></div>
+      <div class="vocab-card"><div class="vocab-word">purge <span class="vocab-pos">v</span></div><div class="vocab-def">to forcibly remove people from a group</div><div class="vocab-ex">Pan Han demands to "purge the Redemptionists"</div></div>
+      <div class="vocab-card"><div class="vocab-word">ratify <span class="vocab-pos">v</span></div><div class="vocab-def">to formally approve a decision</div><div class="vocab-ex">"the decision was ratified by the committee unanimously"</div></div>
+      <div class="vocab-card"><div class="vocab-word">faction <span class="vocab-pos">n</span></div><div class="vocab-def">a group within a larger group with its own agenda</div><div class="vocab-ex">Adventists vs Redemptionists — two factions, one organisation</div></div>
+      <div class="vocab-card"><div class="vocab-word">intercept <span class="vocab-pos">v</span></div><div class="vocab-def">to stop something before it reaches its target</div><div class="vocab-ex">Adventists "intercepted messages from our Lord"</div></div>
+      <div class="vocab-card"><div class="vocab-word">tyranny <span class="vocab-pos">n</span></div><div class="vocab-def">cruel, oppressive power or rule</div><div class="vocab-ex">"Eliminate human tyranny!" — Ye Wenjie's rallying cry</div></div>
+      <div class="vocab-card"><div class="vocab-word">extremist <span class="vocab-pos">n</span></div><div class="vocab-def">a person with intense, uncompromising beliefs</div><div class="vocab-ex">Rafael: despair turned him "from a pacifist into an extremist"</div></div>
+    </div>
+
+    <div class="section-label">Exercise — oral gap fill (read aloud, student fills the blank)</div>
+    <div class="exercise-box">
+      <div class="ex-title">Click the answer button only after the student responds</div>
+      <div class="ex-item">
+        <span class="ex-q">1. "The two sides had become separate <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> — they shared a name but not a goal." <span class="ex-ans" id="a1">(factions)</span></span>
+        <button class="ex-toggle" onclick="showAns('a1',this)">answer</button>
+      </div>
+      <div class="ex-item">
+        <span class="ex-q">2. "She spoke with a <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> expression — no smiles, no warmth, only resolve." <span class="ex-ans" id="a2">(solemn)</span></span>
+        <button class="ex-toggle" onclick="showAns('a2',this)">answer</button>
+      </div>
+      <div class="ex-item">
+        <span class="ex-q">3. "The vote was taken and the plan was <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> by twelve members." <span class="ex-ans" id="a3">(ratified)</span></span>
+        <button class="ex-toggle" onclick="showAns('a3',this)">answer</button>
+      </div>
+      <div class="ex-item">
+        <span class="ex-q">4. "The rebels wanted to <u>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</u> anyone who disagreed with the leadership." <span class="ex-ans" id="a4">(purge)</span></span>
+        <button class="ex-toggle" onclick="showAns('a4',this)">answer</button>
+      </div>
+    </div>
+
+    <div class="section-label">Extension — register shift</div>
+    <div class="prompt-box">
+      <div class="prompt-text">Can you use "purge" in a non-political sentence — something from everyday life?</div>
+      <div class="prompt-note">Target: "I purged my wardrobe." / "She purged old files." — draws attention to how one word changes register depending on context.</div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPREHENSION -->
+<div class="phase">
+  <div class="container">
+    <div class="phase-header">
+      <span class="phase-tag tag-comp">Comprehension</span>
+      <span class="phase-title">Understanding check</span>
+      <span class="phase-time">8 min</span>
+    </div>
+    <div class="teacher-note"><strong>Note:</strong> These questions test understanding, not memory. The quote gives the student context to locate herself in the text before answering. Click "show answer" only after she has responded.</div>
+
+    <!-- Q1 -->
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">Chapter 20 · Question 1</div>
+        <div class="q-text">Wang Miao is confused by what he sees in the sky. What is it — and what does it tell us about where Trisolaran civilisation has arrived?</div>
+        <div class="quote-block">
+          <div class="quote-context">A stranger explains to Wang:</div>
+          <div class="quote-text">"The Trisolaran Interstellar Fleet. It's about to begin its expedition… All those magnificent ships can reach one-tenth the speed of light."</div>
+        </div>
+      </div>
+      <button class="toggle-btn" onclick="toggleAns(this)">▾ show answer</button>
+      <div class="answer-body">
+        <div class="answer-text">The formation of over a thousand "stars" is actually the Trisolaran fleet in synchronous orbit. After civilisation after civilisation was destroyed by the chaotic three-sun system, Trisolaris has finally achieved interstellar travel — the technology to leave and search for a new world.</div>
+        <div class="follow-up">→ Ask: What does it feel like to watch something leave that you know you'll never see return? Why might Liu Cixin open Part III with this image?</div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">Chapter 20 · Question 2</div>
+        <div class="q-text">The crowd watches the fleet disappear in silence. What are they actually hoping for — and why is it bittersweet?</div>
+        <div class="quote-block">
+          <div class="quote-context">The narrator describes what this moment means:</div>
+          <div class="quote-text">"They would not know the outcome of the launch in their lifetimes, but four or five hundred years from now, their descendants would receive the news from a new world."</div>
+        </div>
+      </div>
+      <button class="toggle-btn" onclick="toggleAns(this)">▾ show answer</button>
+      <div class="answer-body">
+        <div class="answer-text">They're hoping for a future home for Trisolaran civilisation — but no one alive will know if it succeeds. The hope belongs entirely to people not yet born. That's why the silence feels so heavy: it's not celebration, it's sacrifice. They are grieving a future they will never witness.</div>
+        <div class="follow-up">→ Ask: Is it meaningful to work toward something you'll never see completed? Can you think of real examples — in history, or personally?</div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">Chapter 21 · Question 3</div>
+        <div class="q-text">Pan Han justifies killing Shen Yufei as necessary for the Organisation. How does Ye Wenjie respond — and what does her response reveal about her?</div>
+        <div class="quote-block">
+          <div class="quote-context">Ye addresses Pan Han in front of everyone:</div>
+          <div class="quote-text">"The ultimate goal and ideal of the ETO is to lose everything. Everything that now belongs to the human race, including us."</div>
+        </div>
+      </div>
+      <button class="toggle-btn" onclick="toggleAns(this)">▾ show answer</button>
+      <div class="answer-body">
+        <div class="answer-text">Ye doesn't argue emotionally — she reframes the entire conversation. She reminds Pan that the ETO's purpose includes the destruction of humanity itself, including all of them. Her calm is more frightening than anger. She doesn't need to raise her voice — shortly after, she has Pan killed with a single nod. Absolute authority expressed through total stillness.</div>
+        <div class="follow-up">→ Ask: What kind of leader speaks gently and still terrifies everyone in the room? Is Ye Wenjie a villain, a true believer, or something harder to name?</div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">Chapter 21 · Question 4</div>
+        <div class="q-text">Rafael reveals the Adventists' real goal — which is different from what most ETO members believed. What is it, and why does it matter that Evans hid it?</div>
+        <div class="quote-block">
+          <div class="quote-context">Rafael confesses to the assembly:</div>
+          <div class="quote-text">"The human race is an evil species… The ultimate goal of the Adventists is to ask our Lord to carry out this divine punishment: the destruction of all humankind."</div>
+        </div>
+      </div>
+      <button class="toggle-btn" onclick="toggleAns(this)">▾ show answer</button>
+      <div class="answer-body">
+        <div class="answer-text">Most members thought the ETO wanted Trisolaran guidance to improve humanity. The Adventists secretly want humanity destroyed entirely. Evans built the whole organisation on a lie — which means even the people inside the movement never gave informed consent to what they were actually working toward. Everyone was used.</div>
+        <div class="follow-up">→ Ask: Rafael gave his dead son's kidney to an enemy's child — out of love — and still ended up here. What does that journey tell us about what extreme grief can do to a person?</div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="q-card">
+      <div class="q-top">
+        <div class="q-num">Chapter 21 · Question 5</div>
+        <div class="q-text">Wang Miao has been almost invisible in this meeting. Then Ye Wenjie names him and names his work. What is the effect of that moment?</div>
+        <div class="quote-block">
+          <div class="quote-context">Ye turns to Wang in front of the entire room:</div>
+          <div class="quote-text">"This is Professor Wang, a member of the Chinese Academy of Sciences and my friend… This is the first technology our Lord wishes to extinguish from the Earth."</div>
+        </div>
+      </div>
+      <button class="toggle-btn" onclick="toggleAns(this)">▾ show answer</button>
+      <div class="answer-body">
+        <div class="answer-text">Wang is no longer invisible. Ye has made him complicit in the room's eyes — and told him his life's work is a target. He nearly collapses. The scene is also deeply unsettling because this woman, who just ordered a man killed, is smiling at him warmly and calling him her friend. The warmth is the threat.</div>
+        <div class="follow-up">→ Ask: Wang grabs someone's sleeve to stay upright — and the man brushes his hand away. What does that tiny detail add? What does it feel like to be invisible to the people around you in a moment of crisis?</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCUSSION -->
+<div class="phase">
+  <div class="container">
+    <div class="phase-header">
+      <span class="phase-tag tag-speak">Discussion</span>
+      <span class="phase-title">3 threads — choose 2</span>
+      <span class="phase-time">22 min (~11 min each)</span>
+    </div>
+    <div class="teacher-note"><strong>Selection guide:</strong> Thread A (the fleet) is the gentlest entry. Thread B (Ye Wenjie) is reliably engaging. Thread C (ideology) is the most demanding — highest risk, highest reward. Default to A + B; use C if she's sharp and focused that day.</div>
+
+    <div class="section-label">Discussion threads</div>
+
+    <div class="thread">
+      <div class="thread-header" onclick="toggleThread(this)">
+        <span class="thread-label">Thread A</span>
+        <span class="thread-title">The fleet — hope across centuries</span>
+        <span class="thread-chev">▾</span>
+      </div>
+      <div class="thread-body open">
+        <div class="dq">
+          <div class="dq-text">The Trisolarans watch their fleet leave in silence — knowing they'll never see the outcome. Liu Cixin chose silence instead of celebration. Why do you think he made that choice?</div>
+          <div class="dq-note">Push for: What is the difference between hope and certainty? Can you hope for something you know will not happen in your lifetime?</div>
+        </div>
+        <div class="dq">
+          <div class="dq-text">If humanity sent a fleet to another star today — knowing no one alive would see it arrive — would that feel meaningful? Would people support it?</div>
+          <div class="dq-note">Reining-in move: if she speaks for too long, ask "Can you summarise that in one sentence?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="thread">
+      <div class="thread-header" onclick="toggleThread(this)">
+        <span class="thread-label">Thread B</span>
+        <span class="thread-title">Ye Wenjie — the gentlest killer</span>
+        <span class="thread-chev">▾</span>
+      </div>
+      <div class="thread-body">
+        <div class="dq">
+          <div class="dq-text">Ye Wenjie speaks gently, calls people "comrades," and then has a man killed without blinking. Is she a villain? A leader? Both? Neither?</div>
+          <div class="dq-note">Target language: moral complexity, mixed motives. Listen for: "She is not simply good or bad because…" / "What makes her frightening is…"</div>
+        </div>
+        <div class="dq">
+          <div class="dq-text">Rafael donated his dead son's kidney to his enemy's child — out of genuine compassion — and still became an extremist. What does that arc tell us about despair?</div>
+          <div class="dq-note">Read the room on this one — it is emotionally weighty. Strong for C1 expression of empathy and nuance.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="thread">
+      <div class="thread-header" onclick="toggleThread(this)">
+        <span class="thread-label">Thread C</span>
+        <span class="thread-title">The ideology — when despair becomes doctrine</span>
+        <span class="thread-chev">▾</span>
+      </div>
+      <div class="thread-body">
+        <div class="dq">
+          <div class="dq-text">The Adventists believe humanity is so broken it deserves destruction. The Redemptionists want humanity saved — by alien force. Neither trusts humans to fix themselves. Is there anything in the world today that makes you even slightly understand where that despair comes from?</div>
+          <div class="dq-note">Acknowledge it's heavy. Reining-in move: "You've made three points — which do you think is the strongest?"</div>
+        </div>
+        <div class="dq">
+          <div class="dq-text">Liu Cixin gives us Rafael — a man whose despair came from genuine love and genuine tragedy. Does that make the Adventists' ideology more disturbing or less?</div>
+          <div class="dq-note">Target: can she distinguish between understanding an origin and endorsing a conclusion? Core C1 critical thinking.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">Language focus — active during discussion</div>
+    <div class="lang-item"><strong>Hedging:</strong> encourage <em>"What troubles me about this is…"</em> / <em>"I can see the argument, but…"</em> / <em>"This is uncomfortable to say, but…"</em></div>
+    <div class="lang-item"><strong>Restatement drill:</strong> if she uses a word vaguely — say <em>"Interesting. Can you say that differently, in simpler words?"</em></div>
+    <div class="lang-item"><strong>Counter-prompt:</strong> after any strong opinion, ask <em>"What would someone who disagreed say?"</em></div>
+  </div>
+</div>
+
+<!-- CLOSE -->
+<div class="phase">
+  <div class="container">
+    <div class="phase-header">
+      <span class="phase-tag tag-close">Close</span>
+      <span class="phase-title">Exit & preview</span>
+      <span class="phase-time">5 min</span>
+    </div>
+
+    <div class="section-label">Exit question</div>
+    <div class="prompt-box">
+      <div class="prompt-text">Ye Wenjie ends chapter 21 saying: <em>"I've only just started."</em> What do you think she means — about the story, and about herself as a character?</div>
+    </div>
+
+    <div class="section-label">Language reflection</div>
+    <div class="prompt-box">
+      <div class="prompt-text">Pick one word from today's vocabulary and use it in a sentence about something outside this book — your week, the news, anything.</div>
+    </div>
+
+    <div class="section-label">Reading preview</div>
+    <div class="prompt-box">
+      <div class="prompt-text">As you read ahead: notice how Liu Cixin handles the question of who deserves to survive — and whether he seems to be on anyone's side.</div>
+    </div>
+
+    <div class="teacher-note"><strong>If time ran short:</strong> assign remaining vocabulary words as written sentences for next session. Do not rush the close — it's where language consolidation happens.</div>
+  </div>
+</div>
+
+<div class="footer">THE THREE-BODY PROBLEM · C1 ESL LESSON · CHAPTERS 20–21</div>
+
+<script>
+function toggleAns(btn) {
+  const body = btn.nextElementSibling;
+  const open = body.classList.toggle('open');
+  btn.textContent = open ? '▴ hide answer' : '▾ show answer';
+}
+function showAns(id, btn) {
+  const el = document.getElementById(id);
+  const open = el.classList.toggle('open');
+  btn.textContent = open ? 'hide' : 'answer';
+}
+function toggleThread(header) {
+  const body = header.nextElementSibling;
+  const chev = header.querySelector('.thread-chev');
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+</script>
+</body>
+</html>
