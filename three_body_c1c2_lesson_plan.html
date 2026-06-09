@@ -1,0 +1,193 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{max-width:680px;padding:1.5rem 0}
+.phase{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:1rem;overflow:hidden}
+.phase-header{display:flex;align-items:center;gap:12px;padding:0.9rem 1.25rem;cursor:pointer;user-select:none}
+.phase-header:hover{background:var(--color-background-secondary)}
+.phase-tag{font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.tag-warm{background:#E1F5EE;color:#0F6E56}
+.tag-vocab{background:#EEEDFE;color:#3C3489}
+.tag-comp{background:#E6F1FB;color:#0C447C}
+.tag-speak{background:#FAEEDA;color:#633806}
+.tag-close{background:#FAECE7;color:#712B13}
+.phase-title{font-size:15px;font-weight:500;color:var(--color-text-primary);flex:1}
+.phase-time{font-size:13px;color:var(--color-text-secondary);white-space:nowrap}
+.chevron{font-size:14px;color:var(--color-text-secondary);transition:transform 0.2s}
+.chevron.open{transform:rotate(180deg)}
+.phase-body{padding:0 1.25rem 1.25rem;display:none}
+.phase-body.open{display:block}
+.section-label{font-size:11px;font-weight:500;color:var(--color-text-tertiary);letter-spacing:0.06em;text-transform:uppercase;margin:1rem 0 0.4rem}
+.item{font-size:14px;color:var(--color-text-primary);line-height:1.6;padding:0.3rem 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.item:last-child{border-bottom:none}
+.item strong{font-weight:500}
+.note{font-size:13px;color:var(--color-text-secondary);font-style:italic;margin-top:0.25rem}
+.q-block{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.75rem 1rem;margin:0.4rem 0;font-size:14px;color:var(--color-text-primary);line-height:1.6}
+.q-block .follow{font-size:13px;color:var(--color-text-secondary);margin-top:0.3rem}
+.vocab-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:0.5rem}
+.vocab-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:0.6rem 0.8rem}
+.vocab-word{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.vocab-pos{font-size:11px;color:var(--color-text-tertiary);font-style:italic}
+.vocab-def{font-size:13px;color:var(--color-text-secondary);margin-top:2px;line-height:1.5}
+.vocab-ex{font-size:12px;color:var(--color-text-tertiary);margin-top:3px;font-style:italic}
+.exercise-box{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:0.8rem 1rem;margin:0.5rem 0}
+.ex-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:0.5rem}
+.timeline-bar{display:flex;gap:4px;margin-bottom:1.5rem}
+.tb-seg{height:6px;border-radius:3px;flex:1}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:1rem}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-text-secondary)}
+.legend-dot{width:10px;height:10px;border-radius:50%}
+</style>
+<div class="wrap">
+<h2 style="sr-only">50-minute ESL lesson plan — The Three-Body Problem chapters 20–21</h2>
+
+<div class="legend">
+<div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Warm-up</div>
+<div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div>Vocabulary</div>
+<div class="legend-item"><div class="legend-dot" style="background:#378ADD"></div>Comprehension</div>
+<div class="legend-item"><div class="legend-dot" style="background:#BA7517"></div>Speaking</div>
+<div class="legend-item"><div class="legend-dot" style="background:#D85A30"></div>Close</div>
+</div>
+<div class="timeline-bar">
+<div class="tb-seg" style="background:#1D9E75;flex:1" title="Warm-up 5min"></div>
+<div class="tb-seg" style="background:#7F77DD;flex:2" title="Vocab 10min"></div>
+<div class="tb-seg" style="background:#378ADD;flex:1.5" title="Comprehension 8min"></div>
+<div class="tb-seg" style="background:#BA7517;flex:4" title="Discussion 22min"></div>
+<div class="tb-seg" style="background:#D85A30;flex:1" title="Close 5min"></div>
+</div>
+
+<div class="phase">
+<div class="phase-header" onclick="toggle(this)">
+<span class="phase-tag tag-warm">Warm-up</span>
+<span class="phase-title">Entry ticket — first impressions</span>
+<span class="phase-time">5 min</span>
+<span class="chevron">▾</span>
+</div>
+<div class="phase-body open">
+<div class="section-label">Teacher prompt</div>
+<div class="q-block">You finished two chapters — give me one word for how you felt at the end of chapter 21. Just one word, then tell me why.
+<div class="follow">Follow-up if she says something vague like "interesting": <em>Interesting how? Surprising? Disturbing? Exciting?</em> — push for precision.</div>
+</div>
+<div class="section-label">Goal</div>
+<div class="item">Activate engagement and establish emotional entry point before any analysis. Keeps her talking but the one-word constraint reins her in from the start.</div>
+</div>
+</div>
+
+<div class="phase">
+<div class="phase-header" onclick="toggle(this)">
+<span class="phase-tag tag-vocab">Vocabulary</span>
+<span class="phase-title">8 words pulled from the text</span>
+<span class="phase-time">10 min</span>
+<span class="chevron">▾</span>
+</div>
+<div class="phase-body">
+<div class="section-label">Target words — contextual, high-yield</div>
+<div class="vocab-grid">
+<div class="vocab-card"><div class="vocab-word">synchronous <span class="vocab-pos">adj</span></div><div class="vocab-def">happening at the same time or speed</div><div class="vocab-ex">"stars in synchronous orbit" — all moving together</div></div>
+<div class="vocab-card"><div class="vocab-word">solemn <span class="vocab-pos">adj</span></div><div class="vocab-def">serious, formal, full of weight</div><div class="vocab-ex">"solemn power" of the fleet's movement</div></div>
+<div class="vocab-card"><div class="vocab-word">purge <span class="vocab-pos">v</span></div><div class="vocab-def">to forcibly remove people from a group</div><div class="vocab-ex">Pan Han calls to "purge the Redemptionists"</div></div>
+<div class="vocab-card"><div class="vocab-word">ratify <span class="vocab-pos">v</span></div><div class="vocab-def">to officially approve a decision</div><div class="vocab-ex">"the decision was ratified by the committee"</div></div>
+<div class="vocab-card"><div class="vocab-word">zealot / extremist <span class="vocab-pos">n</span></div><div class="vocab-def">someone with intense, inflexible beliefs</div><div class="vocab-ex">Evans's followers described as "madmen who hated the human race"</div></div>
+<div class="vocab-card"><div class="vocab-word">faction <span class="vocab-pos">n</span></div><div class="vocab-def">a group within a larger group with different goals</div><div class="vocab-ex">Redemptionists vs Adventists within ETO</div></div>
+<div class="vocab-card"><div class="vocab-word">intercept <span class="vocab-pos">v</span></div><div class="vocab-def">to stop and take something before it reaches its target</div><div class="vocab-ex">Adventists "intercepted messages from our Lord"</div></div>
+<div class="vocab-card"><div class="vocab-word">tyranny <span class="vocab-pos">n</span></div><div class="vocab-def">cruel, oppressive rule or power</div><div class="vocab-ex">"Eliminate human tyranny!" — Ye Wenjie's rallying cry</div></div>
+</div>
+<div class="section-label">Quick exercise — context matching (oral)</div>
+<div class="exercise-box">
+<div class="ex-title">Read each gap aloud. Student fills in the word.</div>
+<div class="item">1. "The rebels wanted to _____ all members who disagreed with their leader." <span class="note">(purge)</span></div>
+<div class="item">2. "The two sides had become separate _____ — they shared a name but not a goal." <span class="note">(factions)</span></div>
+<div class="item">3. "The vote was taken and the plan was _____ by twelve members." <span class="note">(ratified)</span></div>
+<div class="item">4. "She spoke with a _____ expression — no smiles, no warmth, only resolve." <span class="note">(solemn)</span></div>
+</div>
+<div class="section-label">Extension — register stretch</div>
+<div class="item">Ask: <em>Can you use "purge" in a non-political sentence — something from everyday life?</em> (e.g. "I purged my wardrobe." / "She purged old files.") — draws attention to register shift between formal/political and casual use.</div>
+</div>
+</div>
+
+<div class="phase">
+<div class="phase-header" onclick="toggle(this)">
+<span class="phase-tag tag-comp">Comprehension</span>
+<span class="phase-title">Text check — facts and inference</span>
+<span class="phase-time">8 min</span>
+<span class="chevron">▾</span>
+</div>
+<div class="phase-body">
+<div class="section-label">Factual recall — short answers only</div>
+<div class="q-block">What does Wang Miao see in the sky at the beginning of chapter 20, and what is it?
+<div class="follow">Expected: a square formation of stars — the Trisolaran fleet in orbit.</div></div>
+<div class="q-block">What are the three factions mentioned inside the ETO meeting in chapter 21?
+<div class="follow">Adventists, Redemptionists, and the Organisation as a whole. If she only names two, probe: "Is there a third group — or a broader body they all belong to?"</div></div>
+<div class="q-block">What crime does Ye Wenjie accuse the Adventists of committing against the Organisation?
+<div class="follow">Intercepting and distorting messages from the Trisolarans, and sending unauthorised information.</div></div>
+<div class="section-label">Inference — one step deeper</div>
+<div class="q-block">Pan Han says he acted out of "duty." Ye Wenjie says he "violated the Organisation's rules." Who is more right — and does it matter?
+<div class="follow">No right answer. The goal is to get her to distinguish between subjective moral framing and institutional legitimacy. Watch for English structures: "He believes that…" / "From his point of view…" / "However, objectively…"</div></div>
+</div>
+</div>
+
+<div class="phase">
+<div class="phase-header" onclick="toggle(this)">
+<span class="phase-tag tag-speak">Discussion</span>
+<span class="phase-title">3 discussion threads — pick 2</span>
+<span class="phase-time">22 min (~11 min each)</span>
+<span class="chevron">▾</span>
+</div>
+<div class="phase-body">
+<div class="item" style="border:none;padding-bottom:0.25rem"><span style="font-size:13px;color:var(--color-text-secondary)">Choose based on energy in the room. Thread A is safest for warmth; Thread C is highest risk / highest reward for a talkative student.</span></div>
+
+<div class="section-label">Thread A — The Trisolaran fleet (chapter 20)</div>
+<div class="q-block">The Trisolarans watch their fleet leave, knowing they will never see the outcome. They stand in silence. Why do you think Liu Cixin chose silence here — rather than celebration?
+<div class="follow">Push for: What is the emotional difference between hope and certainty? Can you hope for something you know will not happen in your lifetime?</div></div>
+<div class="q-block">If humanity sent a fleet to another star today — knowing no one alive would see it arrive — would that feel meaningful? Would people support it?
+<div class="follow">Reining-in technique: if she talks too long, ask "Can you sum that up in one sentence?"</div></div>
+
+<div class="section-label">Thread B — Ye Wenjie as a character</div>
+<div class="q-block">Ye Wenjie speaks gently, calls people "comrades," and then has a man killed without blinking. Is she a villain? A leader? Both?
+<div class="follow">Target language: moral complexity, mixed motives. Listen for: "She is not simply good or bad because…" / "What makes her frightening is…"</div></div>
+<div class="q-block">Rafael gave a kidney from his dead son to his enemy's child — and still became an extremist. What does this tell us about what despair can do to a person?
+<div class="follow">This is emotionally weighty — read the room. Excellent for C1 expression of empathy and nuance.</div></div>
+
+<div class="section-label">Thread C — The ideology debate (most demanding)</div>
+<div class="q-block">The Adventists believe humanity is so broken it deserves destruction. The Redemptionists want humanity to be saved — by alien intervention. Neither trusts humans to fix themselves. Is there anything in the world today that makes you understand — even slightly — where that despair comes from?
+<div class="follow">Acknowledge it's a heavy question. Strong reining-in potential: "You've made three points — which one do you think is the strongest?"</div></div>
+<div class="q-block">Liu Cixin gives us a character, Rafael, whose despair came from genuine tragedy and genuine compassion. Does that make the Adventists' ideology more or less disturbing?
+<div class="follow">Target: can she distinguish between understanding an origin and endorsing a conclusion? Classic C1 critical thinking territory.</div></div>
+
+<div class="section-label">Language focus — during discussion</div>
+<div class="item"><strong>Soften and hedge:</strong> encourage "What troubles me about this is…" / "I can see the argument, but…" / "This is uncomfortable, but…"</div>
+<div class="item"><strong>Restatement drill:</strong> if she uses a complex word incorrectly or vaguely, say: "Interesting — can you say that differently, in simpler words?"</div>
+<div class="item"><strong>Counter-prompt:</strong> after any strong opinion, ask "What would someone who disagreed say?"</div>
+</div>
+</div>
+
+<div class="phase">
+<div class="phase-header" onclick="toggle(this)">
+<span class="phase-tag tag-close">Close</span>
+<span class="phase-title">Exit — reflection + preview</span>
+<span class="phase-time">5 min</span>
+<span class="chevron">▾</span>
+</div>
+<div class="phase-body">
+<div class="section-label">Exit question</div>
+<div class="q-block">Ye Wenjie ends chapter 21 saying "I've only just started." What do you think she means — about the story, and about herself?</div>
+<div class="section-label">Language reflection</div>
+<div class="item">Ask her to pick one word from today's vocabulary and use it in a sentence about something outside the book — her week, the news, anything.</div>
+<div class="section-label">Preview prompt (for next session)</div>
+<div class="item">As she reads ahead: <em>"Notice how Liu Cixin handles the question of who deserves to survive — and whose side, if anyone's, he seems to be on."</em></div>
+<div class="section-label">Teacher note</div>
+<div class="item">If she ran long on any discussion thread and you didn't reach all vocabulary items — assign the remaining words as written sentences for next session. Do not rush the close.</div>
+</div>
+</div>
+
+</div>
+<script>
+function toggle(header){
+  const body=header.nextElementSibling;
+  const chev=header.querySelector('.chevron');
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  chev.classList.toggle('open',!isOpen);
+}
+</script>
